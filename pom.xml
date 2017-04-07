@@ -26,11 +26,41 @@
   </properties>
 
   <dependencies>
+  
+    <!--  本地jar Start -->
+
+    <!-- 汉语拼音工具包   -->
+    <dependency>
+      <groupId>com.belerweb</groupId>
+      <artifactId>pinyin4j</artifactId>
+    </dependency>
+
+    <!-- 判断文件编码格式   -->
+    <dependency>
+      <groupId>cpdetector</groupId>
+      <artifactId>cpdetector</artifactId>
+    </dependency>
 
     <dependency>
-      <groupId>com.soak</groupId>
-      <artifactId>framework</artifactId>
+      <groupId>jargs</groupId>
+      <artifactId>jargs</artifactId>
     </dependency>
+
+    <!--  本地jar End -->
+    
+    
+    <!-- 检测文本文件(字节流)的编码方式   start  -->
+    <dependency>
+      <groupId>net.sourceforge.jchardet</groupId>
+      <artifactId>jchardet</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>antlr</groupId>
+      <artifactId>antlr</artifactId>
+    </dependency>
+    <!-- 检测文本文件(字节流)的编码方式   end  -->
+    
     
     <!-- CSV  start  -->
     <dependency>
@@ -97,6 +127,12 @@
     <dependency>
       <groupId>commons-jexl</groupId>
       <artifactId>commons-jexl</artifactId>
+    </dependency>
+    
+    <!-- email  -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-email</artifactId>
     </dependency>
     
 
