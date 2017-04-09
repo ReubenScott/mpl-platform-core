@@ -13,7 +13,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.soak.framework.io.IOHandler;
 
 public class FileReaderUtilTest {
 

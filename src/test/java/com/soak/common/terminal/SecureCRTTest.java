@@ -10,9 +10,8 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.soak.common.date.DateUtil;
 import com.soak.common.io.FileUtil;
-import com.soak.framework.date.DateUtil;
-import com.soak.framework.util.StringUtil;
 
 public class SecureCRTTest {
 
