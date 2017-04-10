@@ -1,6 +1,6 @@
 package com.soak.common.constant;
 
-public class SystemContant {
+public class SystemConstant {
 
   public final static String CURRENT_USER = "_current_user";
   public final static String CURRENT_USER_ROLES = "_current_user_roles";
@@ -10,6 +10,8 @@ public class SystemContant {
 
   public static final String DEFAULT_ENCODING = "UTF-8";
 
+  public final static int DEFAULT_BATCH_COUNT = 5000; // JDBC 数据库 批量大小
+  
   public final static int DB2 = 1;
 
   public final static int ORACLE = 2;
