@@ -22,18 +22,18 @@ public class FtpZilla {
   /** 本地字符编码 */
   private static final String LOCAL_CHARSET = System.getProperty("sun.jnu.encoding");
 
-  // FTP协议里面，规定文件名编码为iso-8859-1
-  private static final String SERVER_CHARSET = "ISO-8859-1";
+//  // FTP协议里面，规定文件名编码为iso-8859-1
+//  private static final String SERVER_CHARSET = "ISO-8859-1";  
 
-  
   /**
    * 释放连接
+   * 
    * @param ftpClient
    */
   private static void release(FTPClient ftpClient) {
     if (ftpClient != null) {
       try {
-        if(ftpClient.isConnected()){
+        if (ftpClient.isConnected()) {
           ftpClient.logout();
           ftpClient.disconnect();
         }
@@ -63,12 +63,6 @@ public class FtpZilla {
       ftpClient.connect(userAuthInfo.getHost(), userAuthInfo.getPort());// 连接FTP服务器
       // 登录
       ftpClient.login(userAuthInfo.getUser(), userAuthInfo.getPasswd());
-      /**
-       * // 开启服务器对UTF-8的支持，如果服务器支持就用UTF-8编码，否则就使用本地编码（GBK）. if
-       * (FTPReply.isPositiveCompletion(ftpClient.sendCommand("OPTS UTF8",
-       * "ON"))) { ftpClient.setControlEncoding("UTF-8"); } else {
-       * ftpClient.setControlEncoding(LOCAL_CHARSET); }
-       */
 
       ftpClient.enterLocalPassiveMode();// 设置被动模式
       ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE); // 设置文件传输类型为二进制
@@ -83,6 +77,15 @@ public class FtpZilla {
         logger.debug("FTP server refused connection.");
         return null;
       }
+
+      /**
+       * 开启服务器对UTF-8的支持，如果服务器支持就用UTF-8编码，否则就使用本地编码（GBK）.
+       */
+      if (FTPReply.isPositiveCompletion(ftpClient.sendCommand("OPTS UTF8", "ON"))) {
+        ftpClient.setControlEncoding("UTF-8");
+      } else {
+        ftpClient.setControlEncoding(LOCAL_CHARSET);
+      }
     } catch (SocketException e) {
       e.printStackTrace();
       logger.debug("登录ftp服务器失败,连接超时！");
@@ -94,7 +97,6 @@ public class FtpZilla {
     return ftpClient;
 
   }
-  
 
   /**
    * Description: 向FTP服务器上传文件
@@ -115,8 +117,8 @@ public class FtpZilla {
     if (ftpClient != null) {
       try {
         remoteDirPath = remoteDirPath.replace("\\", "/");
-        remoteDirPath = new String(remoteDirPath.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
-        destfilename = new String(destfilename.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
+        remoteDirPath = new String(remoteDirPath.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING);
+        destfilename = new String(destfilename.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING);
 
         // 转移工作目录至指定目录下
         if (ftpClient.changeWorkingDirectory(remoteDirPath)) {
@@ -173,14 +175,14 @@ public class FtpZilla {
             if (sourceFile[i].exists()) {
               String remotePath = sourceFile[i].getCanonicalPath();
               remotePath = destDir + remotePath.substring(localFullPath.length()).replace('\\', '/'); // .replace("/",
-                                                                                                      // "")
+              // "")
               if (sourceFile[i].isDirectory()) {
-                 uploadDir(userAuthInfo, sourceFile[i].getCanonicalPath(), remotePath);
+                uploadDir(userAuthInfo, sourceFile[i].getCanonicalPath(), remotePath);
               } else {
                 remotePath = remotePath.substring(0, remotePath.lastIndexOf('/'));
                 InputStream input = new FileInputStream(sourceFile[i]);
                 if (ftpClient.changeWorkingDirectory(remotePath)) {
-                  flag = ftpClient.storeFile(new String(sourceFile[i].getName().getBytes(LOCAL_CHARSET), SERVER_CHARSET), input);
+                  flag = ftpClient.storeFile(new String(sourceFile[i].getName().getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING), input);
                 }
                 input.close();
                 logger.debug("文件:" + sourceFile[i].getName() + "上传" + (flag == true ? "成功" : "失败"));
@@ -191,7 +193,7 @@ public class FtpZilla {
           // 转移工作目录至指定目录下
           InputStream input = new FileInputStream(source);
           if (ftpClient.changeWorkingDirectory(destDir)) {
-            flag = ftpClient.storeFile(new String(fileName.getBytes(LOCAL_CHARSET), SERVER_CHARSET), input);
+            flag = ftpClient.storeFile(new String(fileName.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING), input);
           }
           input.close();
           logger.debug("文件:" + source.getName() + "上传" + (flag == true ? "成功" : "失败"));
@@ -222,7 +224,7 @@ public class FtpZilla {
   public static boolean downFile(UserAuthInfo userAuthInfo, String localDirPath, String... remoteFilePaths) {
     boolean result = false;
     FTPClient ftpClient = openFtpClient(userAuthInfo);
-    if ((remoteFilePaths != null) && ftpClient != null ) {
+    if ((remoteFilePaths != null) && ftpClient != null) {
       try {
         for (String remoteFilePath : remoteFilePaths) {
           remoteFilePath = remoteFilePath.replace('\\', '/');
@@ -230,11 +232,11 @@ public class FtpZilla {
           String remoteFileName = remoteFilePath.substring(remoteFilePath.lastIndexOf("/") + 1);
 
           // 转移到FTP服务器目录至指定的目录下
-          ftpClient.changeWorkingDirectory(new String(parentPath.getBytes(LOCAL_CHARSET), SERVER_CHARSET));
+          ftpClient.changeWorkingDirectory(new String(parentPath.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING));
           // 获取文件列表
           String[] fnames = ftpClient.listNames();
           for (String fname : fnames) {
-            String serverfilename = new String(fname.getBytes(SERVER_CHARSET), LOCAL_CHARSET);
+            String serverfilename = new String(fname.getBytes(FTP.DEFAULT_CONTROL_ENCODING), LOCAL_CHARSET);
             if (serverfilename.equals(remoteFileName)) {
               File localFile = new File(localDirPath + "/" + serverfilename);
               OutputStream is = new FileOutputStream(localFile);
@@ -254,6 +256,42 @@ public class FtpZilla {
   }
 
   /**
+   * 检验指定路径的文件是否存在ftp服务器中
+   * 
+   * @param filePath
+   *          --指定绝对路径的文件
+   * @return
+   */
+
+  public static boolean isFileExist(UserAuthInfo userAuthInfo, String filePath) {
+    FTPClient ftpClient = openFtpClient(userAuthInfo);
+    if (ftpClient != null) {
+      try {
+        // 提取绝对地址的目录以及文件名
+        String dir = filePath.substring(0, filePath.lastIndexOf("/"));
+        String file = filePath.substring(filePath.lastIndexOf("/") + 1);
+        // 进入文件所在目录，注意编码格式，以能够正确识别中文目录
+        ftpClient.changeWorkingDirectory(new String(dir.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING));
+        // 检验文件是否存在
+        InputStream is = ftpClient.retrieveFileStream(new String(file.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING));
+        if (is == null || ftpClient.getReplyCode() == FTPReply.FILE_UNAVAILABLE) {
+          return false;
+        }
+        if (is != null) {
+          is.close();
+          ftpClient.completePendingCommand();
+        }
+        return true;
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        release(ftpClient);
+      }
+    }
+    return false;
+  }
+
+  /**
    * 
    * @param ftpUrl
    * @param userName
@@ -264,21 +302,21 @@ public class FtpZilla {
    */
   public static List<String> listFiles(UserAuthInfo userAuthInfo, String directory, List<String> result) {
     FTPClient ftpClient = openFtpClient(userAuthInfo);
-    if (ftpClient != null ) {
+    if (ftpClient != null) {
       try {
-        String parentPath = new String(directory.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
+        String parentPath = new String(directory.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING);
         ftpClient.changeWorkingDirectory(parentPath);
         // 遍历目录
         for (String tmpfilename : ftpClient.listNames()) {
           String childPath = parentPath + "/" + tmpfilename; // new
-                                                             // String(tmpfilename.getBytes(SERVER_CHARSET),LOCAL_CHARSET);
+          // String(tmpfilename.getBytes(FTP.DEFAULT_CONTROL_ENCODING),LOCAL_CHARSET);
           System.out.println(" childPath : " + childPath);
-          String serverpath = new String(childPath.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
+          String serverpath = new String(childPath.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING);
           System.out.println(" serverpath : " + serverpath);
           if (ftpClient.changeWorkingDirectory(childPath)) {
             listFiles(userAuthInfo, childPath, result);
           } else {
-            result.add(new String(childPath.getBytes(SERVER_CHARSET), LOCAL_CHARSET));
+            result.add(new String(childPath.getBytes(FTP.DEFAULT_CONTROL_ENCODING), LOCAL_CHARSET));
           }
 
         }
@@ -304,7 +342,7 @@ public class FtpZilla {
    *          重命名后的文件名 目录
    * @throws IOException
    */
-  public static boolean rename(UserAuthInfo userAuthInfo,String directory, String oldName, String newName) {
+  public static boolean rename(UserAuthInfo userAuthInfo, String directory, String oldName, String newName) {
     /**
      * 判断远程文件是否重命名成功，如果成功返回true，否则返回false
      */
@@ -312,9 +350,9 @@ public class FtpZilla {
     FTPClient ftpClient = openFtpClient(userAuthInfo);
     if (ftpClient != null) {
       try {
-        ftpClient.changeWorkingDirectory(new String(directory.getBytes(LOCAL_CHARSET), SERVER_CHARSET));
-        oldName = new String(oldName.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
-        newName = new String(newName.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
+        ftpClient.changeWorkingDirectory(new String(directory.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING));
+        oldName = new String(oldName.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING);
+        newName = new String(newName.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING);
         result = ftpClient.rename(oldName, newName); // 重命名远程 文件、目录
       } catch (NumberFormatException e) {
         throw e;
@@ -342,12 +380,12 @@ public class FtpZilla {
      */
     boolean result = false;
     FTPClient ftpClient = openFtpClient(userAuthInfo);
-    if ( ftpClient != null ) {
+    if (ftpClient != null) {
       try {
         String isDirPath = directory + "/" + fileName;
-        fileName = new String(fileName.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
+        fileName = new String(fileName.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING);
 
-        if (ftpClient.changeWorkingDirectory(new String(isDirPath.getBytes(LOCAL_CHARSET), SERVER_CHARSET))) {
+        if (ftpClient.changeWorkingDirectory(new String(isDirPath.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING))) {
           String[] filenames = ftpClient.listNames();
           for (String tmpfilename : filenames) {
             // isDirPath = isDirPath + "/" + tmpfilename;
@@ -359,12 +397,12 @@ public class FtpZilla {
           if (filenames.length == 0) {
             ftpClient.changeWorkingDirectory("../");
             System.out.println("fileName : " + fileName);
-            result = ftpClient.removeDirectory(new String(fileName.getBytes(LOCAL_CHARSET), SERVER_CHARSET));// 删除目录
+            result = ftpClient.removeDirectory(new String(fileName.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING));// 删除目录
           }
         } else {
           // 转移到FTP服务器目录至指定的目录下
-          ftpClient.changeWorkingDirectory(new String(directory.getBytes(LOCAL_CHARSET), SERVER_CHARSET));
-          result = ftpClient.deleteFile(new String(fileName.getBytes(LOCAL_CHARSET), SERVER_CHARSET));// 删除远程文件
+          ftpClient.changeWorkingDirectory(new String(directory.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING));
+          result = ftpClient.deleteFile(new String(fileName.getBytes(LOCAL_CHARSET), FTP.DEFAULT_CONTROL_ENCODING));// 删除远程文件
         }
 
       } catch (NumberFormatException e) {
@@ -375,7 +413,7 @@ public class FtpZilla {
         release(ftpClient);
       }
     }
-    
+
     return result;
   }
 
@@ -402,7 +440,7 @@ public class FtpZilla {
     } finally {
       release(ftpClient);
     }
-    
+
     return result;
   }
 
@@ -413,7 +451,7 @@ public class FtpZilla {
    * @param ftpClient
    * @return
    */
-  private static boolean isDirExist(UserAuthInfo userAuthInfo, String dir ) {
+  private static boolean isDirExist(UserAuthInfo userAuthInfo, String dir) {
     boolean isDirExist = false;
     FTPClient ftpClient = openFtpClient(userAuthInfo);
     try {
