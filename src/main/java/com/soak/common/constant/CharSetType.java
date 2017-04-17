@@ -20,26 +20,15 @@ public enum CharSetType {
       return "GB18030";
     }
   }, 
-  ORACLE { 
+  UTF8 { 
     @Override
     public String getSubset() {
-      return "ORACLE";
+      return "UTF-8";
     }
 
     @Override
     public String getValue() {
-      return "ORACLE";
-    }
-  },
-  MYSQL {
-    @Override
-    public String getSubset() {
-      return "MySQL";
-    }
-
-    @Override
-    public String getValue() {
-      return "MySQL";
+      return "UTF-8";
     }
   };
 
@@ -63,7 +52,7 @@ public enum CharSetType {
     
     // 补充 列举字符的  不足
     if(encoding == null ){
-      encoding = charset ;
+      encoding = charset ; 
     }
     
     return encoding;
