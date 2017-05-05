@@ -372,6 +372,30 @@ public class FileUtil {
     }
     return filename;
   }
+  
+
+  /**
+   *获得文件名的扩展名，也就是格式 e.g. "mypath/myfile.txt" -> "txt".
+   */
+  public static String getFileExtension(String path) {
+    // 边界处理
+    if (path == null) {
+      return null;
+    }
+    // 获得最后一个‘.’的位置
+    int extIndex = path.lastIndexOf('.');
+    if (extIndex == -1) {
+      return null;
+    }
+    // 找到最后一个文件分隔符‘/’的位置
+    int folderIndex = path.lastIndexOf("/");
+    // 如果folderIndex在extIndex的右边，返回null
+    if (folderIndex > extIndex) {
+      return null;
+    }
+    // 返回‘.’之后的子字符串
+    return path.substring(extIndex + 1);
+  }
 
   /**
    * 获取文件 可以根据正则表达式查找
