@@ -1,5 +1,7 @@
 package com.soak.common.io;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +16,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -22,6 +26,8 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
+import org.apache.poi.ss.usermodel.Workbook;
 
 public class FileUtil {
 
@@ -302,6 +308,47 @@ public class FileUtil {
   }
 
   /**
+   * 下载远程文件并保存到本地
+   * 
+   * @param remoteFilePath
+   *          远程文件路径
+   * @param localFilePath
+   *          本地文件路径
+   */
+  public static void downloadFile(String url, String localFilePath) {
+    URL urlfile = null;
+    HttpURLConnection httpUrl = null;
+    BufferedInputStream bis = null;
+    BufferedOutputStream bos = null;
+
+    File f = new File(localFilePath);
+    try {
+      urlfile = new URL(url);
+      httpUrl = (HttpURLConnection) urlfile.openConnection();
+      httpUrl.connect();
+      bis = new BufferedInputStream(httpUrl.getInputStream());
+      bos = new BufferedOutputStream(new FileOutputStream(f));
+      int len = 2048;
+      byte[] b = new byte[len];
+      while ((len = bis.read(b)) != -1) {
+        bos.write(b, 0, len);
+      }
+      bos.flush();
+      bis.close();
+      httpUrl.disconnect();
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        bis.close();
+        bos.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  /**
    * 解压缩
    * 
    * @param sZipPathFile
@@ -372,7 +419,6 @@ public class FileUtil {
     }
     return filename;
   }
-  
 
   /**
    *获得文件名的扩展名，也就是格式 e.g. "mypath/myfile.txt" -> "txt".

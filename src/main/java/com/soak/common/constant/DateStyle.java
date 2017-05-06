@@ -1,4 +1,4 @@
-package com.soak.common.date;
+package com.soak.common.constant;
 
 public enum DateStyle {
   

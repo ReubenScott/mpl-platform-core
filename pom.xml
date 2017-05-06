@@ -26,7 +26,7 @@
   </properties>
 
   <dependencies>
-  
+
     <!--  本地jar Start -->
 
     <!-- 汉语拼音工具包   -->
@@ -47,8 +47,8 @@
     </dependency>
 
     <!--  本地jar End -->
-    
-    
+
+
     <!-- 检测文本文件(字节流)的编码方式   start  -->
     <dependency>
       <groupId>net.sourceforge.jchardet</groupId>
@@ -60,8 +60,30 @@
       <artifactId>antlr</artifactId>
     </dependency>
     <!-- 检测文本文件(字节流)的编码方式   end  -->
-    
-    
+
+
+
+    <!-- 网络爬虫  start  -->
+    <!--  HTTP协议的客户端编程工具包 -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+    </dependency>
+
+    <!-- HTML解析器  -->
+    <dependency>
+      <groupId>org.htmlparser</groupId>
+      <artifactId>htmlparser</artifactId>
+    </dependency>
+
+    <!-- HTML解析器 -->
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+    </dependency>
+    <!-- 网络爬虫   end  -->
+
+
     <!-- CSV  start  -->
     <dependency>
       <groupId>net.sf.opencsv</groupId>
@@ -69,29 +91,16 @@
     </dependency>
     <!-- CSV  end  -->
 
+
     <!-- logback+slf4j start -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <type>jar</type>
-      <scope>compile</scope>
     </dependency>
-    
-    <!--
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-core</artifactId>
-      <type>jar</type>
-    </dependency>
-    -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-core</artifactId>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -121,20 +130,20 @@
       <groupId>org.apache.poi</groupId>
       <artifactId>poi-ooxml</artifactId>
     </dependency>
-    
-    
+
+
     <!-- 公式运算  -->
     <dependency>
       <groupId>commons-jexl</groupId>
       <artifactId>commons-jexl</artifactId>
     </dependency>
-    
+
     <!-- email  -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-email</artifactId>
     </dependency>
-    
+
 
     <dependency>
       <groupId>junit</groupId>
