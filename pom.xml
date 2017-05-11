@@ -35,7 +35,8 @@
       <artifactId>pinyin4j</artifactId>
     </dependency>
 
-    <!-- 判断文件编码格式   -->
+    
+    <!-- 检测文本文件(字节流)的编码方式   start  -->
     <dependency>
       <groupId>cpdetector</groupId>
       <artifactId>cpdetector</artifactId>
@@ -46,10 +47,6 @@
       <artifactId>jargs</artifactId>
     </dependency>
 
-    <!--  本地jar End -->
-
-
-    <!-- 检测文本文件(字节流)的编码方式   start  -->
     <dependency>
       <groupId>net.sourceforge.jchardet</groupId>
       <artifactId>jchardet</artifactId>
