@@ -5,6 +5,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * <p>
  * 任务调度管理器
@@ -13,10 +16,12 @@ import java.util.concurrent.TimeUnit;
  * 2010-5-28 下午11:30:20
  */
 public class SchedulerManager { 
-  
-  private volatile static ScheduledExecutorService scheduExec;
 
-  private volatile static SchedulerManager instance;
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  
+  private volatile static ScheduledExecutorService scheExecService;
+
+  private volatile static SchedulerManager instance;   
   
   
   /**
@@ -25,7 +30,8 @@ public class SchedulerManager {
    */
   private SchedulerManager() {
     int cpuNums = Runtime.getRuntime().availableProcessors(); // 获取当前系统的CPU 数目
-    scheduExec = Executors.newScheduledThreadPool(cpuNums);
+    scheExecService = Executors.newScheduledThreadPool(cpuNums);
+    logger.debug("SchedulerManager init Thread Size ;{}" ,  cpuNums);
   }
 
 
@@ -58,10 +64,10 @@ public class SchedulerManager {
     if((startTimes != null) && (startTimes.length > 0) ){
       for(Date time : startTimes){
         long delay =  time.getTime() - current ;
-        scheduExec.schedule(command , delay , TimeUnit.MILLISECONDS);
+        scheExecService.schedule(command , delay , TimeUnit.MILLISECONDS);
       }
     } else {
-      scheduExec.schedule(command , 0 , TimeUnit.MILLISECONDS);
+      scheExecService.schedule(command , 0 , TimeUnit.MILLISECONDS);
     }
   }
 
@@ -76,9 +82,9 @@ public class SchedulerManager {
     long current = System.currentTimeMillis() ;
     if(startTime != null){
       long initialDelay =  startTime.getTime() - current ;
-      scheduExec.scheduleAtFixedRate(command , initialDelay , period , TimeUnit.MILLISECONDS);
+      scheExecService.scheduleAtFixedRate(command , initialDelay , period , TimeUnit.MILLISECONDS);
     } else {
-      scheduExec.scheduleAtFixedRate(command , 0 , period , TimeUnit.MILLISECONDS);
+      scheExecService.scheduleAtFixedRate(command , 0 , period , TimeUnit.MILLISECONDS);
     }
   }
   
@@ -87,7 +93,7 @@ public class SchedulerManager {
     *  停止任务调度器
     */
   public void stop() {
-    scheduExec.shutdown();
+    scheExecService.shutdown();
   }
 
 
