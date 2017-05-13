@@ -29,7 +29,7 @@ public class SchedulerManager {
    * 
    */
   private SchedulerManager() {
-    int cpuNums = Runtime.getRuntime().availableProcessors(); // 获取当前系统的CPU 数目
+    int cpuNums = Runtime.getRuntime().availableProcessors(); // 可用cpu逻辑处理器
     scheExecService = Executors.newScheduledThreadPool(cpuNums);
     logger.debug("SchedulerManager init Thread Size ;{}" ,  cpuNums);
   }
