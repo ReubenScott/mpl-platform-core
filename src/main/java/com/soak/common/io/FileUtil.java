@@ -27,9 +27,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FileUtil {
+  
+  private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
   /**
    * 新建目录
@@ -40,15 +43,13 @@ public class FileUtil {
    */
   public static void newFolder(String folderPath) {
     try {
-      String filePath = folderPath;
-      filePath = filePath.toString();
-      File myFilePath = new File(filePath);
-      if (!myFilePath.exists()) {
-        myFilePath.mkdir();
+      File dirFile = new File(folderPath);
+      if (!dirFile.exists() && !dirFile.isDirectory() ) {
+        dirFile.mkdir();
       }
     } catch (Exception e) {
-      System.out.println("新建目录操作出错");
       e.printStackTrace();
+      logger.error("FileUtil mkdir {} Error!" , folderPath );
     }
   }
 
