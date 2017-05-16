@@ -53,7 +53,7 @@ public class ThreadPool {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  private static final int POOLSIZE = 4; // 线程池维护线程的最大线程数
+  private static final int POOLSIZE = 2; // 线程池维护线程的最大线程数
 
   private ThreadPoolExecutor executorService;
 

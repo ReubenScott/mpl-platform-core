@@ -2,6 +2,7 @@ package com.soak.common.ftp;
 
 import static org.junit.Assert.*;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +19,25 @@ public class FtpZillaTest {
   @Before
   public void setUp() throws Exception {
   }
+  
+  
 
   @Test
+  public void testGetFileInputStream() {
+    List<String> list = new ArrayList<String>();
+    list.add("fsfs");
+    list.add("abc");
+    list.add("ffdes");
+    System.out.println(list.contains(new String("abc")));
+    System.out.println(list.contains("abc"));
+    
+//    UserAuthInfo userAuthinfo = new UserAuthInfo("32.137.32.79", 21, "sjxf", "sjxf");
+//    String filePath = "/home/sjxf/odsdata/20170501/P_063_AFA_AFA_AGTTXNJNL_20170501.del";
+//    InputStream is = FtpZilla.retrieveFileStream(userAuthinfo , filePath );
+//    System.out.println(is==null);
+//    
+  }
+
   public void testDownFile() {
     UserAuthInfo userAuthinfo = new UserAuthInfo("32.137.32.41", 21, "sjxf", "sjxf");
     
@@ -50,7 +68,7 @@ public class FtpZillaTest {
   
   public void testListFiles() {
     UserAuthInfo userAuthinfo = new UserAuthInfo("32.137.32.116", 21, "ftpuser", "ftpuser");
-    List<String> list = FtpZilla.listFiles(userAuthinfo , "/home/userbalance", new ArrayList());
+    List<String> list = FtpZilla.listAllFiles(userAuthinfo , "/home/userbalance", new ArrayList());
     for (String aa : list) {
       System.out.println(aa);
     }
