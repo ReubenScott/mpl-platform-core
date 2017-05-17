@@ -66,8 +66,8 @@ public class ThreadPool {
       public Thread newThread(Runnable runnable) {
         // 对新创建的线程做一些操作
         Thread thread = Executors.defaultThreadFactory().newThread(runnable);
+        thread.setPriority(Thread.MIN_PRIORITY); // 设置优先级 为最低
         logger.debug("ThreadPool new Thread Group: {} ID: {} Name: {} " ,  new Object[]{thread.getThreadGroup().getName() ,thread.getId() , thread.getName()});
-
         return thread;
       }
     });
