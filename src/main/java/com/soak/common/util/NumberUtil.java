@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
  * @author hyPortal
  * @version 1.0 2012-01-01
  */
-public class NumberUtils {
+public class NumberUtil {
   
-  private static final Logger logger = LoggerFactory.getLogger(NumberUtils.class);
+  private static final Logger logger = LoggerFactory.getLogger(NumberUtil.class);
 
   /**
    * 字符串转BigDecimal

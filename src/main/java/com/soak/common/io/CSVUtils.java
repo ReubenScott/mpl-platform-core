@@ -10,9 +10,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.soak.common.constant.CharSetType;
+
 import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * CSV操作(导出和导入)
@@ -22,91 +30,9 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 public class CSVUtils {
   
+  protected static final Logger logger = LoggerFactory.getLogger(CSVUtils.class);
+
   
-  public void importCsvFile(String filepath) {
-    
-    CSVReader csvReader = null;
-    
-    try {
-      //importFile为要导入的文本格式逗号分隔的csv文件，提供getXX/setXX方法
-      csvReader = new CSVReader(new FileReader(filepath),',');
-      
-      if(csvReader != null){
-        //first row is title, so past
-        csvReader.readNext();
-        String[] csvRow = null;//row
-        
-        while ((csvRow = csvReader.readNext()) != null){
-          for (int i =0; i<csvRow.length; i++){
-            String temp = csvRow[i];
-            System.out.println(temp);
-            
-          }
-          
-        }
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    } 
-    
-  }
-
-  /**
-   * 导出
-   * 
-   * @param file
-   *          csv文件(路径+文件名)，csv文件不存在会自动创建
-   * @param dataList
-   *          数据
-   * @return
-   */
-  public static boolean exportCsv(File file, List<String> dataList) {
-    boolean isSucess = false;
-
-    FileOutputStream out = null;
-    OutputStreamWriter osw = null;
-    BufferedWriter bw = null;
-    try {
-      out = new FileOutputStream(file);
-      osw = new OutputStreamWriter(out);
-      bw = new BufferedWriter(osw);
-      if (dataList != null && !dataList.isEmpty()) {
-        for (String data : dataList) {
-          bw.append(data).append("\r");
-        }
-      }
-      isSucess = true;
-    } catch (Exception e) {
-      isSucess = false;
-    } finally {
-      if (bw != null) {
-        try {
-          bw.close();
-          bw = null;
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-      if (osw != null) {
-        try {
-          osw.close();
-          osw = null;
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-      if (out != null) {
-        try {
-          out.close();
-          out = null;
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-    }
-
-    return isSucess;
-  }
 
   /**
    * 导入
@@ -115,30 +41,69 @@ public class CSVUtils {
    *          csv文件(路径+文件)
    * @return
    */
-  public static List<String> importCsv(File file) {
+  public static List<String> importCsvFile(String filepath) {
     List<String> dataList = new ArrayList<String>();
 
-    BufferedReader br = null;
+    CSVReader csvReader = null;
+
     try {
-      br = new BufferedReader(new FileReader(file));
-      String line = "";
-      while ((line = br.readLine()) != null) {
-        dataList.add(line);
-      }
-    } catch (Exception e) {
-    } finally {
-      if (br != null) {
-        try {
-          br.close();
-          br = null;
-        } catch (IOException e) {
-          e.printStackTrace();
+      // importFile为要导入的文本格式逗号分隔的csv文件，提供getXX/setXX方法
+      csvReader = new CSVReader(new FileReader(filepath), ',');
+
+      if (csvReader != null) {
+        // first row is title, so past
+        csvReader.readNext();
+        String[] csvRow = null;// row
+        
+
+//        String line = "";
+//        while ((line = br.readLine()) != null) {
+//          dataList.add(line);
+//        }
+
+        while ((csvRow = csvReader.readNext()) != null) {
+          for (int i = 0; i < csvRow.length; i++) {
+            String temp = csvRow[i];
+            System.out.println(temp);
+
+          }
+
         }
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+    return dataList ;
+  }
+
+  /***
+   * 查询到处数据为 CSV
+   * 
+   * @param filePath
+   *          CSV DEL 文件路径
+   * 
+   * @param separator
+   *          字段分隔符 0X1D : 29 ; 逗号 (char)44
+   * 
+   * @param quotechar
+   *          引用字符 空字符 '\0' (char)0
+   * 
+   */
+  public static void exportCSV(String filePath, List<String[]> dataList) {
+    try {
+      OutputStreamWriter outWriter = new OutputStreamWriter(new FileOutputStream(filePath), CharSetType.GBK.getValue());
+      CSVWriter writer = new CSVWriter(outWriter, ',', '"', "\r\n");
+      writer.writeAll(dataList);
+      writer.close();// 关闭文件流
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      
     }
 
-    return dataList;
   }
+
 
   public static void main(String[] args) {
     String[] str = { "省", "市", "区", "街", "路", "里", "幢", "村", "室", "园", "苑", "巷", "号" };
