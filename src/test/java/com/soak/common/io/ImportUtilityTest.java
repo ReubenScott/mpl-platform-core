@@ -1,43 +1,34 @@
 package com.soak.common.io;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
-import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-
-public class FileReaderUtilTest {
+public class ImportUtilityTest {
 
   @Before
   public void setUp() throws Exception {
   }
 
-   @Test
-  public void testcodeString() throws Exception {
-     // String sql = "insert into CBOD_ECCMRAMR values (?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?,?,?)";
-     // 数据库文件 分割符号 0X1D : 29
-     // split = new String(new byte[] { 29 });
-     
- 
-     
-    String filename = "D:\\home\\20160318\\YKJD_LN_DUEBILL.del";
-//    YKJD_LN_DUEBILL
-    // filename ="D:\\load.SQL";
-    filename = "E:\\ftpdata\\P_063_CBOD_GLGLGHTD_20150701.del";
-    // filename = "D:\\home\\portal\\soooner\\logs\\npvr\\npvr.log";
+  @Test
+  public void testcodeString() {
+    String filepath = "E:/bufmeta.csv";
+    List<String[]> datas = ImportUtility.importCsv(filepath);
+    for(String[] line : datas){
+      for(String column : line){
+        System.out.print(column + " ");
+      }
+      System.out.println("");
+    }
 
-    System.out.println(IOHandler.getCharSetEncoding(filename));
   }
 
-//  @Test
+  // @Test
   public void testReadFileByBytes() {
     String filename = "D:\\home\\20160318\\YKJD_LN_DUEBILL.del";
     byte[] bt;

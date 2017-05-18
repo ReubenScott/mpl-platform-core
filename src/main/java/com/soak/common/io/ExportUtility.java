@@ -10,17 +10,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.soak.common.constant.CharSetType;
-
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
+
+import com.soak.common.constant.CharSetType;
 
 /**
  * CSV操作(导出和导入)
@@ -28,54 +26,10 @@ import au.com.bytecode.opencsv.CSVWriter;
  * @author 林计钦
  * @version 1.0 Jan 27, 2014 4:30:58 PM
  */
-public class CSVUtils {
+public class ExportUtility {
   
-  protected static final Logger logger = LoggerFactory.getLogger(CSVUtils.class);
+  protected static final Logger logger = LoggerFactory.getLogger(ExportUtility.class);
 
-  
-
-  /**
-   * 导入
-   * 
-   * @param file
-   *          csv文件(路径+文件)
-   * @return
-   */
-  public static List<String> importCsvFile(String filepath) {
-    List<String> dataList = new ArrayList<String>();
-
-    CSVReader csvReader = null;
-
-    try {
-      // importFile为要导入的文本格式逗号分隔的csv文件，提供getXX/setXX方法
-      csvReader = new CSVReader(new FileReader(filepath), ',');
-
-      if (csvReader != null) {
-        // first row is title, so past
-        csvReader.readNext();
-        String[] csvRow = null;// row
-        
-
-//        String line = "";
-//        while ((line = br.readLine()) != null) {
-//          dataList.add(line);
-//        }
-
-        while ((csvRow = csvReader.readNext()) != null) {
-          for (int i = 0; i < csvRow.length; i++) {
-            String temp = csvRow[i];
-            System.out.println(temp);
-
-          }
-
-        }
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    
-    return dataList ;
-  }
 
   /***
    * 查询到处数据为 CSV
@@ -101,7 +55,6 @@ public class CSVUtils {
     } finally {
       
     }
-
   }
 
 
@@ -130,4 +83,6 @@ public class CSVUtils {
       System.out.println("读写文件出错！");
     }
   }
+  
+  
 }
