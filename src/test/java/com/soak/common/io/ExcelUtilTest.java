@@ -5,9 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -27,94 +24,47 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.soak.common.constant.DateStyle;
-import com.soak.common.date.DateUtil;
 import com.soak.common.util.StringUtil;
 
-public class ExcelUtil {
+public class ExcelUtilTest {
 
   protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-  /**
-   * Excel 转JAVA类型
-   * 
-   * @param rs
-   * @return
-   */
-  public static String convertCellToString(Cell cell) {
-    String cellobjTmp;
-    if (cell == null) {
-      cellobjTmp = null;
-    } else {
-      switch (cell.getCellType()) {
-        case Cell.CELL_TYPE_STRING: // 字符串
-          cellobjTmp = cell.getStringCellValue().trim();
-          break;
-        case Cell.CELL_TYPE_NUMERIC: // 数字 日期
-          double cellValue = cell.getNumericCellValue();
-          switch (cell.getCellStyle().getDataFormat()) {
-            case 20: // Time
-            case 21: // Time
-            case 46: // TODO 需要验证    1900/1/1 0:00:00  24:00:00
-            case 176:  
-              cellobjTmp = DateUtil.formatDate(cell.getDateCellValue(), DateStyle.TIMEFORMAT);
-              break;
-            case 22: // DateTime
-              cellobjTmp = DateUtil.formatDate(cell.getDateCellValue(), DateStyle.DATETIMEFORMAT);
-              break;
-            case 31: // Date  2016年10月26日
-            case 58: // Date
-              // 处理自定义日期格式：m月d日(通过判断单元格的格式id解决，id的值是58)
-              cellobjTmp = DateUtil.formatDate(cell.getDateCellValue(), DateStyle.SHORTDATEFORMAT);
-              break;
-            case 0: // 数字
-              // 返回数值类型的值
-              long longVal = Math.round(cellValue);
-              // 判断是否含有小数位.0
-              if (cellValue - longVal == 0) {
-                cellobjTmp = String.valueOf(longVal);
-              } else {
-                cellobjTmp = String.valueOf(cellValue);
-              }
-              break;
-            default:
-              cellobjTmp = String.valueOf(cellValue);
-          }
-          break;
-        case Cell.CELL_TYPE_BOOLEAN: // Boolean
-          cellobjTmp = String.valueOf(cell.getBooleanCellValue());
-          break;
-        case Cell.CELL_TYPE_FORMULA: // 公式
-          // cellobjTmp = String.valueOf(cell.getCellFormula());
-          try {
-            cellobjTmp = String.valueOf(cell.getNumericCellValue());
-          } catch (IllegalStateException e) {
-            try {
-              cellobjTmp = String.valueOf(cell.getRichStringCellValue());
-            } catch (IllegalStateException e1) {
-              //TODO
-              cellobjTmp = null ;
-            }
-          }
-          break;
-        case Cell.CELL_TYPE_BLANK: // 空值
-          cellobjTmp = "";
-          break;
-        case Cell.CELL_TYPE_ERROR: // 故障
-          cellobjTmp = "";
-          break;
-        default:
-          cellobjTmp = cell.toString();
-          break;
-      }
-    }
-    return cellobjTmp;
-  }
   
+
+  @BeforeClass
+  public static void setUpBeforeClass() throws Exception {
+  }
+
+  @AfterClass
+  public static void tearDownAfterClass() throws Exception {
+  }
+
+  @Before
+  public void setUp() throws Exception {
+  }
+
+  @After
+  public void tearDown() throws Exception {
+  }
+
+  @Test
+  public void testReadExcel() {
+    // excelUtil.readExcel("D:/workspace/中非发展基金投资项目调度会工作落实情况对照表.xlsx");
+  }
+
+  @Test
+  public void testCreateExcel() {
+//    excelUtil.readExcel(filePath);
+  }
+
   /**
    * 设置表头样式
    * @param sheet
