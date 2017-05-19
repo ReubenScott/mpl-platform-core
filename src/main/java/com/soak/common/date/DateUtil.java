@@ -17,12 +17,9 @@ import org.slf4j.LoggerFactory;
 import com.soak.common.constant.DateStyle;
 import com.soak.common.constant.Week;
 
-
-
 public class DateUtil {
 
   private final static Logger logger = LoggerFactory.getLogger(DateUtil.class);
-  
 
   // 获得系统当前日期
   public static Date getCurrentDateTime() {
@@ -32,7 +29,7 @@ public class DateUtil {
 
   // 获得系统当前日期
   public static Date getCurrentShortDate() {
-    return parseShortDate(getCurrentShortDateString()) ;
+    return parseShortDate(getCurrentShortDateString());
   }
 
   // 获得系统当前日期
@@ -40,7 +37,7 @@ public class DateUtil {
     Calendar cal = Calendar.getInstance();
     return formatShortDate(cal.getTime());
   }
-  
+
   // 获得系统当前时间
   public static String currentDateTimeToString() {
     Calendar cal = Calendar.getInstance();
@@ -61,13 +58,14 @@ public class DateUtil {
    * 获取时间差 单位(秒)
    * 
    * @param startDate
-   * @param amount 单位
+   * @param amount
+   *          单位
    * @return
    */
   public static Date addTime(Date startTime, long amount) {
     Calendar calendar = Calendar.getInstance();
     Date date = calendar.getTime();
-    amount = startTime.getTime() + amount*1000 ;
+    amount = startTime.getTime() + amount * 1000;
     date.setTime(amount);
     return date;
   }
@@ -86,7 +84,6 @@ public class DateUtil {
     calendar.setTime(date);
     return calendar.get(dateType);
   }
-
 
   /**
    * 获取精确的日期
@@ -291,7 +288,7 @@ public class DateUtil {
     DateFormat df = new SimpleDateFormat(parttern);
     return (null == date) ? null : df.format(date);
   }
-  
+
   /**
    * 将日期转化为日期字符串。失败返回null。
    * 
@@ -304,8 +301,6 @@ public class DateUtil {
   public static String formatShortDate(Date date) {
     return formatDate(date, DateStyle.SHORTDATEFORMAT);
   }
-  
-
 
   /**
    * 将日期字符串转化为另一日期字符串。失败返回null。
@@ -381,7 +376,6 @@ public class DateUtil {
     return dateString;
   }
 
-
   /**
    * 功能：当前时间增加年数。注意遇到2月29日情况，系统会自动延后或者减少一天。
    * 
@@ -437,7 +431,7 @@ public class DateUtil {
     c.set(Calendar.HOUR, c.get(Calendar.HOUR) + interval);
     return c.getTime();
   }
-  
+
   /**
    * 增加日期的分钟。失败返回null。
    * 
@@ -457,7 +451,6 @@ public class DateUtil {
     }
     return myDate;
   }
-  
 
   /**
    * 增加日期的秒钟。
@@ -476,7 +469,6 @@ public class DateUtil {
     c.set(Calendar.SECOND, c.get(Calendar.SECOND) + interval);
     return c.getTime();
   }
-
 
   /**
    * 获取日期的年份。失败返回0。
@@ -631,9 +623,9 @@ public class DateUtil {
     Calendar c = Calendar.getInstance();
     c.setTime(parseShortDate(dateStr));
     String[] timestr = timeFormat.split(":");
-    c.set(Calendar.HOUR_OF_DAY,  timestr.length >= 1 ? Integer.valueOf(timestr[0]) : 0);
-    c.set(Calendar.MINUTE, timestr.length >= 2 ? Integer.valueOf(timestr[1]): 0);
-    c.set(Calendar.SECOND, timestr.length >= 3 ? Integer.valueOf(timestr[2]): 0);
+    c.set(Calendar.HOUR_OF_DAY, timestr.length >= 1 ? Integer.valueOf(timestr[0]) : 0);
+    c.set(Calendar.MINUTE, timestr.length >= 2 ? Integer.valueOf(timestr[1]) : 0);
+    c.set(Calendar.SECOND, timestr.length >= 3 ? Integer.valueOf(timestr[2]) : 0);
     return c.getTime();
   }
 
@@ -653,49 +645,49 @@ public class DateUtil {
    * 
    * @param startDate
    * @param endDate
-   * @return  Timespan 时间间隔  单位(秒)
+   * @return Timespan 时间间隔 单位(秒)
    */
   public static float timeDiff(Date startTime, Date endTime) {
     long diff = endTime.getTime() - startTime.getTime();
     return diff / 1000;
   }
-  
+
   /**
    * 功能：比较两个时间
    * 
    * @param startDate
    * @param endDate
-   * @return  Timespan 时间间隔  单位(秒)
+   * @return Timespan 时间间隔 单位(秒)
    */
   public static boolean isBefore(Date sameTime, Date baseTime) {
-    long diff = sameTime.getTime() - baseTime.getTime() ;
-    return diff < 0 ? true : false ;
+    long diff = sameTime.getTime() - baseTime.getTime();
+    return diff < 0 ? true : false;
   }
-  
+
   /**
    * 功能：比较两个时间
    * 
    * @param startDate
    * @param endDate
-   * @return  Timespan 时间间隔  单位(秒)
+   * @return Timespan 时间间隔 单位(秒)
    */
   public static boolean isAfter(Date sameTime, Date baseTime) {
-    long diff = sameTime.getTime() - baseTime.getTime() ;
-    return diff > 0 ? true : false ;
+    long diff = sameTime.getTime() - baseTime.getTime();
+    return diff > 0 ? true : false;
   }
-  
+
   /**
    * 功能：是不是在两个时间之间
    * 
    * @param startDate
    * @param endDate
-   * @return  Timespan 时间间隔  单位(秒)
+   * @return Timespan 时间间隔 单位(秒)
    */
-  public static boolean isBetween(Date sameTime, Date startTime , Date endTime ) {
-    long total = Math.abs(startTime.getTime() - endTime.getTime()) ;
+  public static boolean isBetween(Date sameTime, Date startTime, Date endTime) {
+    long total = Math.abs(startTime.getTime() - endTime.getTime());
     long st = Math.abs(sameTime.getTime() - startTime.getTime());
-    long et = Math.abs(sameTime.getTime() - endTime.getTime()) ;    
-    return (st + et == total) ? true : false ;
+    long et = Math.abs(sameTime.getTime() - endTime.getTime());
+    return (st + et == total) ? true : false;
   }
 
   /**
@@ -720,32 +712,35 @@ public class DateUtil {
 
   /**
    * 是否 统一时间
+   * 
    * @param date1
    * @param date2
    * @return
    */
   public static boolean isSameDateTime(Date date1, Date date2) {
-    if(date1 == null && date2 == null ){
-      return true ;
-    } else if(date1 == null || date2 == null){
-      return false ;
+    if (date1 == null && date2 == null) {
+      return true;
+    } else if (date1 == null || date2 == null) {
+      return false;
     }
     return date1.getTime() == date2.getTime();
   }
 
   /**
    * 
-   * 取最近、且不超过指定时间    的时间
+   * 取最近、且不超过指定时间 的时间
    * Get closest to the previous time
-   * @param date   time
+   * 
+   * @param date
+   *          time
    * @return
    */
-  public static Date getClosestPreviousTime(Date referenceTime , List<Date> dates) {
+  public static Date getClosestPreviousTime(Date referenceTime, List<Date> dates) {
     Date prior = null;
     for (Date date : dates) {
-      float diff = DateUtil.timeDiff(referenceTime , date);
-      if (diff <= 0 ) {
-        if(prior == null || prior.before(date) ){
+      float diff = DateUtil.timeDiff(referenceTime, date);
+      if (diff <= 0) {
+        if (prior == null || prior.before(date)) {
           prior = date;
         }
       }
@@ -755,47 +750,47 @@ public class DateUtil {
 
   /**
    * 
-   * 取最近、且超过指定时间    的时间
+   * 取最近、且超过指定时间 的时间
    * Get closest to the previous time
-   * @param date   time
+   * 
+   * @param date
+   *          time
    * @return
    */
-  public static Date getClosestBehindTime(Date referenceTime , List<Date> dates) {
+  public static Date getClosestBehindTime(Date referenceTime, List<Date> dates) {
     Date behind = null;
     for (Date date : dates) {
-      float diff = DateUtil.timeDiff(referenceTime , date);
-      if (diff >= 0 ) {
-        if(behind == null || behind.after(date) ){
+      float diff = DateUtil.timeDiff(referenceTime, date);
+      if (diff >= 0) {
+        if (behind == null || behind.after(date)) {
           behind = date;
         }
       }
     }
     return behind;
   }
-  
-  
+
   /**
    * 取最接近的的时间
    * 
    * @param date
    * @return
    */
-  public static Date getApproximatelyTime(Date referenceTime , List<Date> dates) {
+  public static Date getApproximatelyTime(Date referenceTime, List<Date> dates) {
     Date later = null;
-    Float interval = null ;
+    Float interval = null;
     for (Date date : dates) {
-      float diff = DateUtil.timeDiff(referenceTime , date);
+      float diff = DateUtil.timeDiff(referenceTime, date);
       // 获取时间最近的
-      if(interval == null || (Math.abs(interval) > Math.abs(diff)) ){
-        interval = diff ;
-        later = date ;
+      if (interval == null || (Math.abs(interval) > Math.abs(diff))) {
+        interval = diff;
+        later = date;
       }
-      
+
     }
     return later;
   }
-  
-  
+
   /**
    * 获取范围内的时间
    * 
@@ -812,7 +807,6 @@ public class DateUtil {
     Collections.sort(rs);
     return rs;
   }
-
 
   /**
    * 获取指定日期的月天数
@@ -886,7 +880,7 @@ public class DateUtil {
     cal.setTime(date);
     cal.set(Calendar.HOUR_OF_DAY, 0);
     cal.set(Calendar.MINUTE, 0);
-    cal.set(Calendar.SECOND,0);
+    cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
     cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
     return cal.getTime();
@@ -913,7 +907,7 @@ public class DateUtil {
   public static String getFirstDayOfSeason(String rq) {
     String year = rq.substring(0, 4);
     int month = Integer.parseInt(rq.substring(5, 7));
-    int[][] array = {{ 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
+    int[][] array = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
     int season = 1;
     if (month >= 1 && month <= 3) {
       season = 1;
@@ -931,7 +925,6 @@ public class DateUtil {
     String seasonDate = getFirstDayOfMonth(year + "-" + firstMonth + "-1");
     return seasonDate;
   }
-  
 
   /**
    * 获取当年第一天
@@ -942,7 +935,7 @@ public class DateUtil {
   public static String getFirstDayOfYear(String rq) {
     return rq.substring(0, 4) + "-01-01";
   }
-  
+
   /**
    * 获取选择日期所在年份的最后一天 如：2012-01-15=>2012-12-31
    * 
@@ -952,7 +945,6 @@ public class DateUtil {
   public static String getLastDayOfYear(String rq) {
     return rq.substring(0, 4) + "-12-31";
   }
-  
 
   /**
    * 返回 期之间所有日期
@@ -961,7 +953,7 @@ public class DateUtil {
    * @param endDate
    * @return
    */
-  public static List<Date> getEachDateIn(Date startDate , Date endDate) {
+  public static List<Date> getEachDateIn(Date startDate, Date endDate) {
     List<Date> dates = new ArrayList<Date>();
     // 对两个日期之间所有日期的遍历
     Long startTime = parseShortDate(formatShortDate(startDate)).getTime();
@@ -972,9 +964,48 @@ public class DateUtil {
       startTime += oneDay;
       dates.add(eachDate);
     }
-    return dates ;
+    return dates;
   }
 
-  
+  /**
+   * 如果s ＝ null 返回 null
+   * 否则设置日期的时分秒为“0：0：0”：
+   * 
+   * @param d
+   *          Date
+   * @return Date
+   */
+  public static Date getDayStart(Date d) {
+    if (d == null) {
+      return null;
+    }
+    Calendar c = Calendar.getInstance();
+    c.setTime(d);
+    c.set(Calendar.HOUR_OF_DAY, 0);
+    c.set(Calendar.MINUTE, 0);
+    c.set(Calendar.SECOND, 0);
+    return new Date(c.getTime().getTime());
+
+  }
+
+  /**
+   * 如果s ＝ null 返回 null
+   * 否则设置日期的时分秒为“23：59：59”：
+   * 
+   * @param s
+   *          Object
+   * @return Date
+   */
+  public static Date getDayEnd(Date d) {
+    if (d == null) {
+      return null;
+    }
+    Calendar c = Calendar.getInstance();
+    c.setTime(d);
+    c.set(Calendar.HOUR_OF_DAY, 23);
+    c.set(Calendar.MINUTE, 59);
+    c.set(Calendar.SECOND, 59);
+    return new Date(c.getTime().getTime());
+  }
 
 }

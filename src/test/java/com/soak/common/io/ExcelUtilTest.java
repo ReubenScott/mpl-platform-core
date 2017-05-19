@@ -1,11 +1,13 @@
 package com.soak.common.io;
 
+import java.awt.print.Book;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -37,7 +39,6 @@ import com.soak.common.util.StringUtil;
 public class ExcelUtilTest {
 
   protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-  
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -62,78 +63,85 @@ public class ExcelUtilTest {
 
   @Test
   public void testCreateExcel() {
-//    excelUtil.readExcel(filePath);
+    String sheetName = "图书列表";
+    String titleName = "我的图书";
+    String[] headers = { "图书id", "图书名称", "图书价格", "入库时间" };
+//    List<Book> dataSet = service.selectBookList();
+    String resultUrl = "E:\\book.xls";
+    String pattern = "yyyy-MM-dd";
+//    ExportExcel.exportExcel(sheetName, titleName, headers, dataSet, resultUrl, pattern);
+
+    // excelUtil.readExcel(filePath);
   }
 
   /**
    * 设置表头样式
+   * 
    * @param sheet
    * @param region
    * @param cs
    */
-  public static Sheet createHead(Workbook workbook ,  String sheetName , String title , int width) {
+  public static Sheet createHead(Workbook workbook, String sheetName, String title, int width) {
     // Sheet样式
     CellStyle sheetStyle = workbook.createCellStyle();
     // 背景色的设定
-//    sheetStyle.setFillBackgroundColor(XSSFColor.GREY_25_PERCENT.index);
+    // sheetStyle.setFillBackgroundColor(XSSFColor.GREY_25_PERCENT.index);
     // 前景色的设定
-//    sheetStyle.setFillForegroundColor(XSSFColor.GREY_25_PERCENT.index);
+    // sheetStyle.setFillForegroundColor(XSSFColor.GREY_25_PERCENT.index);
     // 填充模式
     sheetStyle.setFillPattern(CellStyle.NO_FILL);
-    
-    Sheet sheet ;
-    if(StringUtil.isEmpty(sheetName)){
+
+    Sheet sheet;
+    if (StringUtil.isEmpty(sheetName)) {
       sheet = workbook.createSheet();// 创建一个Excel的Sheet
-    } else{
+    } else {
       sheet = workbook.createSheet(sheetName);// 创建一个Excel的Sheet
     }
-    
+
     // 设置列的样式
     for (int i = 0; i < width; i++) {
-      sheet.autoSizeColumn(i, true); //  自适应列宽度
+      sheet.autoSizeColumn(i, true); // 自适应列宽度
     }
-    
-    Row row = sheet.createRow(0);  // 创建第一行
-    Cell cell = row.createCell(0);  // 创建第一列
-    
-    cell.setCellValue(title);  // 设置标题
 
-    row.setHeight((short) 900);  // 设置行高
-    
+    Row row = sheet.createRow(0); // 创建第一行
+    Cell cell = row.createCell(0); // 创建第一列
+
+    cell.setCellValue(title); // 设置标题
+
+    row.setHeight((short) 900); // 设置行高
+
     /**
-     * 合并单元格 
-     * 第一个参数：第一个单元格的行数（从0开始） 
-     * 第二个参数：第二个单元格的行数（从0开始） 
-     * 第三个参数：第一个单元格的列数（从0开始） 
+     * 合并单元格
+     * 第一个参数：第一个单元格的行数（从0开始）
+     * 第二个参数：第二个单元格的行数（从0开始）
+     * 第三个参数：第一个单元格的列数（从0开始）
      * 第四个参数：第二个单元格的列数（从0开始）
      */
-    CellRangeAddress range = new CellRangeAddress(0, 0, 0, width );  // 合并单元格
+    CellRangeAddress range = new CellRangeAddress(0, 0, 0, width); // 合并单元格
     sheet.addMergedRegion(range);
-    
-    
+
     // 设置字体
     Font font = workbook.createFont();
     font.setFontName("黑体");
-    font.setFontHeightInPoints((short)22);// 字体大小
+    font.setFontHeightInPoints((short) 22);// 字体大小
     font.setBoldweight(Font.BOLDWEIGHT_BOLD);// 加粗
 
     // 标题样式
     CellStyle headstyle = workbook.createCellStyle();
-    headstyle.setFont(font);  
+    headstyle.setFont(font);
     headstyle.setAlignment(CellStyle.ALIGN_CENTER);// 水平居中
     headstyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);// 上下居中
     headstyle.setLocked(true);
     headstyle.setWrapText(true);// 自动换行
-    
+
     cell.setCellStyle(headstyle);
-    
-    return sheet ;
+
+    return sheet;
   }
 
-  
-  
   /**
    * 设置合并 单元格样式
+   * 
    * @param sheet
    * @param region
    * @param cs
@@ -144,7 +152,7 @@ public class ExcelUtilTest {
     font.setFontName("宋体");
     font.setFontHeightInPoints((short) 10);
     font.setBoldweight(Font.BOLDWEIGHT_BOLD);
-    
+
     // 列头的样式
     CellStyle cellStyle = workbook.createCellStyle();
     cellStyle.setFont(font);
@@ -152,37 +160,36 @@ public class ExcelUtilTest {
     cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);// 上下居中
     cellStyle.setLocked(true);
     cellStyle.setWrapText(true);
-//    columnHeadStyle.setLeftBorderColor(XSSFColor.BLACK.index);// 左边框的颜色
-//    columnHeadStyle.setRightBorderColor(XSSFColor.BLACK.index);// 右边框的颜色
-//    columnHeadStyle.setBorderBottom(CellStyle.BORDER_NONE); // 设置单元格的边框为粗体
-//    columnHeadStyle.setBottomBorderColor(XSSFColor.BLACK.index); // 设置单元格的边框颜色
+    // columnHeadStyle.setLeftBorderColor(XSSFColor.BLACK.index);// 左边框的颜色
+    // columnHeadStyle.setRightBorderColor(XSSFColor.BLACK.index);// 右边框的颜色
+    // columnHeadStyle.setBorderBottom(CellStyle.BORDER_NONE); // 设置单元格的边框为粗体
+    // columnHeadStyle.setBottomBorderColor(XSSFColor.BLACK.index); // 设置单元格的边框颜色
     // 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
-//    columnHeadStyle.setFillForegroundColor(XSSFColor.WHITE.index);
-    
-    cellStyle.setBorderBottom(CellStyle.BORDER_THIN); //下边框
-    cellStyle.setBorderLeft(CellStyle.BORDER_THIN);//左边框
-//    columnHeadStyle.setBorderLeft((short)1);// 边框的大小
-    cellStyle.setBorderTop(CellStyle.BORDER_THIN);//上边框
-//    columnHeadStyle.setBorderRight((short)1);// 边框的大小
-    cellStyle.setBorderRight(CellStyle.BORDER_THIN);//右边框
-    
+    // columnHeadStyle.setFillForegroundColor(XSSFColor.WHITE.index);
+
+    cellStyle.setBorderBottom(CellStyle.BORDER_THIN); // 下边框
+    cellStyle.setBorderLeft(CellStyle.BORDER_THIN);// 左边框
+    // columnHeadStyle.setBorderLeft((short)1);// 边框的大小
+    cellStyle.setBorderTop(CellStyle.BORDER_THIN);// 上边框
+    // columnHeadStyle.setBorderRight((short)1);// 边框的大小
+    cellStyle.setBorderRight(CellStyle.BORDER_THIN);// 右边框
+
     return cellStyle;
   }
-  
 
-  
   /**
    * 普通单元格样式
+   * 
    * @param sheet
    * @param region
-   * @param cs    
+   * @param cs
    */
   public static CellStyle getOrdinaryCellStyle(Workbook workbook) {
     // 字体样式
     Font font = workbook.createFont();
     font.setFontName("宋体");
     font.setFontHeightInPoints((short) 10);
-    
+
     // 普通单元格样式
     CellStyle cellStyle = workbook.createCellStyle();
     cellStyle.setFont(font);
@@ -191,24 +198,24 @@ public class ExcelUtilTest {
     cellStyle.setLocked(true);
     cellStyle.setWrapText(true);
 
-    cellStyle.setBorderBottom(CellStyle.BORDER_THIN); //下边框
-//  columnHeadStyle.setBorderBottom(CellStyle.BORDER_NONE); // 设置单元格的边框为粗体
-    cellStyle.setBorderLeft(CellStyle.BORDER_THIN);//左边框
-//    columnHeadStyle.setBorderLeft((short)1);// 边框的大小
-    cellStyle.setBorderTop(CellStyle.BORDER_THIN);//上边框
-//    columnHeadStyle.setBorderRight((short)1);// 边框的大小
-    cellStyle.setBorderRight(CellStyle.BORDER_THIN);//右边框
-//  columnHeadStyle.setLeftBorderColor(XSSFColor.BLACK.index);// 左边框的颜色
-//  columnHeadStyle.setRightBorderColor(XSSFColor.BLACK.index);// 右边框的颜色
-//  columnHeadStyle.setBottomBorderColor(XSSFColor.BLACK.index); // 设置单元格的边框颜色
-//style.setFillForegroundColor(XSSFColor.WHITE.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
-    
+    cellStyle.setBorderBottom(CellStyle.BORDER_THIN); // 下边框
+    // columnHeadStyle.setBorderBottom(CellStyle.BORDER_NONE); // 设置单元格的边框为粗体
+    cellStyle.setBorderLeft(CellStyle.BORDER_THIN);// 左边框
+    // columnHeadStyle.setBorderLeft((short)1);// 边框的大小
+    cellStyle.setBorderTop(CellStyle.BORDER_THIN);// 上边框
+    // columnHeadStyle.setBorderRight((short)1);// 边框的大小
+    cellStyle.setBorderRight(CellStyle.BORDER_THIN);// 右边框
+    // columnHeadStyle.setLeftBorderColor(XSSFColor.BLACK.index);// 左边框的颜色
+    // columnHeadStyle.setRightBorderColor(XSSFColor.BLACK.index);// 右边框的颜色
+    // columnHeadStyle.setBottomBorderColor(XSSFColor.BLACK.index); // 设置单元格的边框颜色
+    // style.setFillForegroundColor(XSSFColor.WHITE.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+
     return cellStyle;
   }
-  
-  
+
   /**
    * 设置合并 单元格样式
+   * 
    * @param sheet
    * @param region
    * @param cs
@@ -227,17 +234,18 @@ public class ExcelUtilTest {
 
   /**
    * 设置合并 单元格边框
+   * 
    * @param sheet
    * @param region
    * @param cs
    */
-  public static void setRegionBorder(int border, CellRangeAddress region, Sheet sheet,Workbook wb){  
-    RegionUtil.setBorderBottom(border,region, sheet, wb);  
-    RegionUtil.setBorderLeft(border,region, sheet, wb);  
-    RegionUtil.setBorderRight(border,region, sheet, wb);  
-    RegionUtil.setBorderTop(border,region, sheet, wb);  
-  
-  }  
+  public static void setRegionBorder(int border, CellRangeAddress region, Sheet sheet, Workbook wb) {
+    RegionUtil.setBorderBottom(border, region, sheet, wb);
+    RegionUtil.setBorderLeft(border, region, sheet, wb);
+    RegionUtil.setBorderRight(border, region, sheet, wb);
+    RegionUtil.setBorderTop(border, region, sheet, wb);
+
+  }
 
   /**
    * 读取office xls

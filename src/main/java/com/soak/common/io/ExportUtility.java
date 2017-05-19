@@ -38,7 +38,10 @@ import au.com.bytecode.opencsv.CSVWriter;
 import com.soak.common.constant.CharSetType;
 
 /**
- * CSV操作(导出和导入)
+ * CSV Excel 导出
+ * 
+ * http://blog.csdn.net/lk_blog/article/details/8007777
+ * http://blog.csdn.net/u010427935/article/details/52848257
  * 
  * @author 林计钦
  * @version 1.0 Jan 27, 2014 4:30:58 PM

@@ -1,13 +1,14 @@
 package com.soak.common.constant;
 
 public enum DateStyle {
-  
+
   MM_DD("MM-dd"),
   YYYY_MM("yyyy-MM"),
+  YYYYMMDD("yyyyMMdd"),
   SHORTDATEFORMAT("yyyy-MM-dd"),
   MM_DD_HH_MM("MM-dd HH:mm"),
   MM_DD_HH_MM_SS("MM-dd HH:mm:ss"),
-  YYYY_MM_DD_HH_MM("yyyy-MM-dd HH:mm"),
+  DATEMINFORMAT("yyyy-MM-dd HH:mm"),
   DATETIMEFORMAT("yyyy-MM-dd HH:mm:ss"),
   
   MM_DD_EN("MM/dd"),
@@ -26,10 +27,7 @@ public enum DateStyle {
   YYYY_MM_DD_HH_MM_CN("yyyy年MM月dd日 HH:mm"),
   YYYY_MM_DD_HH_MM_SS_CN("yyyy年MM月dd日 HH:mm:ss"),
 
-  YYYYMMDD("yyyyMMdd"),
-  
-  
-  HH_MM("HH:mm"),
+  HOURMINFORMAT("HH:mm"),
   TIMEFORMAT("HH:mm:ss");
   
   

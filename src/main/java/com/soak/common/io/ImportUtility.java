@@ -33,7 +33,7 @@ import com.soak.common.date.DateUtil;
 
 public class ImportUtility {
 
-  protected static final Logger logger = LoggerFactory.getLogger(ImportUtility.class);
+  private static final Logger logger = LoggerFactory.getLogger(ImportUtility.class);
 
   /***
    * CSV（默认以逗号分割的） 文件入库 默认 引用字符 '"' 默认从首行开始导入
@@ -105,7 +105,7 @@ public class ImportUtility {
    * @param rs
    * @return
    */
-  public static String convertCellToString(Cell cell) {
+  public static String getCellContent(Cell cell) {  
     String cellobjTmp;
     if (cell == null) {
       cellobjTmp = null;
@@ -172,6 +172,9 @@ public class ImportUtility {
           break;
       }
     }
+    
+//    Pattern p = Pattern.compile("\t|\r|\n");
+//    return p.matcher(value).replaceAll("");
     return cellobjTmp;
   }
 
