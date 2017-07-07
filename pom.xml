@@ -13,7 +13,7 @@
 
 
   <parent>
-    <groupId>com.soak</groupId>
+    <groupId>com.kindustry</groupId>
     <artifactId>epl-parent-pom</artifactId>
     <version>1.0-SNAPSHOT</version>
     <relativePath>../epl-parent-pom</relativePath>
