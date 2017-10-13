@@ -35,7 +35,7 @@
       <artifactId>pinyin4j</artifactId>
     </dependency>
 
-    
+
     <!-- 检测文本文件(字节流)的编码方式   start  -->
     <dependency>
       <groupId>cpdetector</groupId>
@@ -59,7 +59,12 @@
     <!-- 检测文本文件(字节流)的编码方式   end  -->
 
 
-
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+    </dependency>
+    
+    
     <!-- 网络爬虫  start  -->
     <!--  HTTP协议的客户端编程工具包 -->
     <dependency>
@@ -88,11 +93,6 @@
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.json-lib</groupId>
-      <artifactId>json-lib</artifactId>
-      <classifier>jdk15</classifier>
     </dependency>
     <!-- JSON  end  -->
 
