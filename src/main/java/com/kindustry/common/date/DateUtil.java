@@ -544,8 +544,7 @@ public class DateUtil {
    * @return 日期
    */
   public static Date getShortDate(String date) {
-    DateFormat sdf = new SimpleDateFormat(DateStyle.SHORTDATEFORMAT.getValue());
-    return parseDateString(sdf.format(date), DateStyle.SHORTDATEFORMAT);
+    return parseDateString(date, DateStyle.SHORTDATEFORMAT);
   }
 
   /**

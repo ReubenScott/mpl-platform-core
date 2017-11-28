@@ -518,10 +518,20 @@ public class BeanUtil {
    *          新的字段值
    * @return
    */
-  public static void setProperties(Object object, String propertyName, Object value) throws IntrospectionException, IllegalAccessException, InvocationTargetException {
-    PropertyDescriptor pd = new PropertyDescriptor(propertyName, object.getClass());
-    Method methodSet = pd.getWriteMethod();
-    methodSet.invoke(object, value);
+  public static void setProperties(Object object, String propertyName, Object value)  {
+    try {
+      PropertyDescriptor pd = new PropertyDescriptor(propertyName, object.getClass());
+      Method methodSet = pd.getWriteMethod();
+      methodSet.invoke(object, value);
+    } catch (IntrospectionException e) {
+      e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
