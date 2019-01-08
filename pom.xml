@@ -65,6 +65,16 @@
     </dependency>
     
     
+    
+    <!-- https://mvnrepository.com/artifact/io.netty/netty -->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty</artifactId>
+      <version>3.3.0.Final</version>
+    </dependency>
+        
+        
+    
     <!-- 网络爬虫  start  -->
     <!--  HTTP协议的客户端编程工具包 -->
     <dependency>
