@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version ="1.0" encoding="UTF-8" ?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.kindustry</groupId>
   <artifactId>core</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-
   <packaging>jar</packaging>
 
   <name>epl-platform-core</name>
@@ -14,9 +11,9 @@
 
   <parent>
     <groupId>com.kindustry</groupId>
-    <artifactId>epl-parent-pom</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <relativePath>../epl-parent-pom</relativePath>
+    <artifactId>platform-pom</artifactId>
+    <version>1.0</version>
+    <relativePath>../parent-pom</relativePath>
   </parent>
 
 
@@ -34,7 +31,6 @@
       <groupId>com.belerweb</groupId>
       <artifactId>pinyin4j</artifactId>
     </dependency>
-
 
     <!-- 检测文本文件(字节流)的编码方式   start  -->
     <dependency>
@@ -66,13 +62,11 @@
     
     
     
-    <!-- https://mvnrepository.com/artifact/io.netty/netty -->
+    <!-- Socket -->
     <dependency>
       <groupId>io.netty</groupId>
-      <artifactId>netty</artifactId>
-      <version>3.3.0.Final</version>
+      <artifactId>netty-all</artifactId>
     </dependency>
-        
         
     
     <!-- 网络爬虫  start  -->
@@ -96,14 +90,18 @@
     <!-- 网络爬虫   end  -->
 
     <!-- JSON start -->
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-    </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+      </dependency>
     <!-- JSON  end  -->
 
     <!-- CSV  start  -->
@@ -113,6 +111,12 @@
     </dependency>
     <!-- CSV  end  -->
 
+    <!--  SSH2  -->
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+    </dependency>
+      
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-ftp</artifactId>
@@ -157,7 +161,6 @@
       <artifactId>janino</artifactId>
     </dependency>
     <!-- logback+slf4j  end  -->
-
 
 
     <dependency>

@@ -1,11 +1,9 @@
 package com.kindustry.common.metic;
 
-
 /**
  * @author Administrator
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ *         To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -13,7 +11,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
-
 
 public class UUIDGenerator {
 
@@ -104,8 +101,7 @@ public class UUIDGenerator {
       StringBuffer sb = new StringBuffer(32);
       for (int j = 0; j < array.length; ++j) {
         int b = array[j] & TWO_BYTES;
-        if (b < PAD_BELOW)
-          sb.append('0');
+        if (b < PAD_BELOW) sb.append('0');
         sb.append(Integer.toHexString(b));
       }
 
@@ -137,27 +133,26 @@ public class UUIDGenerator {
     return sb.toString();
   }
 
-  /** 
-   * 获得一个UUID 
-   * @return String UUID 
-   */ 
-  public static String generate(){ 
-      return new UUIDGenerator().valueAfterMD5; 
-  } 
-  
-  
-  
+  /**
+   * 获得一个UUID
+   * 
+   * @return String UUID
+   */
+  public static String generate() {
+    return new UUIDGenerator().valueAfterMD5;
+  }
+
   // Demonstraton and self test of class
   public static void main(String args[]) {
     String uuid = UUIDGenerator.generate();
     System.out.println(uuid);
     System.out.println("baebaef2-4444-1034-8757-3b303faca01e".length());
-  /*  for (int i = 0; i < 100; i++) {
-      UUIDGenerator myGUID = new UUIDGenerator();
-      System.out.println("Seeding String=" + myGUID.valueBeforeMD5);
-      System.out.println("rawGUID=" + myGUID.valueAfterMD5);
-      System.out.println("RandomGUID=" + myGUID.toString());
-    }*/
+    /*  for (int i = 0; i < 100; i++) {
+        UUIDGenerator myGUID = new UUIDGenerator();
+        System.out.println("Seeding String=" + myGUID.valueBeforeMD5);
+        System.out.println("rawGUID=" + myGUID.valueAfterMD5);
+        System.out.println("RandomGUID=" + myGUID.toString());
+      }*/
   }
 
 }

@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * JSON转换工具类
@@ -71,20 +71,20 @@ public class JsonUtil {
    * @param jsonArr
    * @return
    */
-//  public static List<Object> jsonToList(JSONArray jsonArr) {
-//    List<Object> list = new ArrayList<Object>();
-//    for (int i = 0; i < jsonArr.length(); i++) {
-//      Object obj = jsonArr.get(i);
-//      if (obj instanceof JSONArray) {
-//        list.add(jsonToList((JSONArray) obj));
-//      } else if (obj instanceof JSONObject) {
-//        list.add(jsonToMap((JSONObject) obj));
-//      } else {
-//        list.add(obj);
-//      }
-//    }
-//    return list;
-//  }
+  // public static List<Object> jsonToList(JSONArray jsonArr) {
+  // List<Object> list = new ArrayList<Object>();
+  // for (int i = 0; i < jsonArr.length(); i++) {
+  // Object obj = jsonArr.get(i);
+  // if (obj instanceof JSONArray) {
+  // list.add(jsonToList((JSONArray) obj));
+  // } else if (obj instanceof JSONObject) {
+  // list.add(jsonToMap((JSONObject) obj));
+  // } else {
+  // list.add(obj);
+  // }
+  // }
+  // return list;
+  // }
 
   /**
    * 将json字符串转换成map对象
@@ -102,20 +102,20 @@ public class JsonUtil {
    * @param json
    * @return
    */
-//  public static Map<String, Object> jsonToMap(JSONObject obj) {
-//    Set<String> set = obj.keySet();
-//    Map<String, Object> map = new HashMap<String, Object>(set.size());
-//    for (String key : set) {
-//      Object value = obj.get(key);
-//      if (value instanceof JSONArray) {
-//        map.put(key.toString(), jsonToList((JSONArray) value));
-//      } else if (value instanceof JSONObject) {
-//        map.put(key.toString(), jsonToMap((JSONObject) value));
-//      } else {
-//        map.put(key.toString(), obj.get(key));
-//      }
-//
-//    }
-//    return map;
-//  }
+  // public static Map<String, Object> jsonToMap(JSONObject obj) {
+  // Set<String> set = obj.keySet();
+  // Map<String, Object> map = new HashMap<String, Object>(set.size());
+  // for (String key : set) {
+  // Object value = obj.get(key);
+  // if (value instanceof JSONArray) {
+  // map.put(key.toString(), jsonToList((JSONArray) value));
+  // } else if (value instanceof JSONObject) {
+  // map.put(key.toString(), jsonToMap((JSONObject) value));
+  // } else {
+  // map.put(key.toString(), obj.get(key));
+  // }
+  //
+  // }
+  // return map;
+  // }
 }
