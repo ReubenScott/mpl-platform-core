@@ -2,6 +2,8 @@ package com.kindustry.test.observe;
 
 import org.junit.Test;
 
+import com.kindustry.framework.service.Worker;
+
 public class TestCase {
 
 	@Test

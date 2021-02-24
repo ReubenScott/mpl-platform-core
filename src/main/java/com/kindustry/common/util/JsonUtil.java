@@ -1,4 +1,4 @@
-package com.kindustry.common.json;
+package com.kindustry.common.util;
 
 import java.io.IOException;
 import java.util.HashMap;

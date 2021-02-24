@@ -15,15 +15,14 @@ import org.slf4j.LoggerFactory;
  * 
  * 2010-5-28 下午11:30:20
  */
-public class SchedulerManager { 
+public class SchedulerManager {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
-  
+
   private volatile static ScheduledExecutorService scheExecService;
 
-  private volatile static SchedulerManager instance;   
-  
-  
+  private volatile static SchedulerManager instance;
+
   /**
    * 根据线程池中线程数量构造调度管理器
    * 
@@ -31,9 +30,8 @@ public class SchedulerManager {
   private SchedulerManager() {
     int cpuNums = Runtime.getRuntime().availableProcessors(); // 可用cpu逻辑处理器
     scheExecService = Executors.newScheduledThreadPool(cpuNums);
-    logger.debug("SchedulerManager init Thread Size ;{}" ,  cpuNums);
+    logger.debug("SchedulerManager init Thread Size ;{}", cpuNums);
   }
-
 
   /***
    * 获取实例
@@ -50,24 +48,25 @@ public class SchedulerManager {
     }
     return instance;
   }
-  
+
   /***
    * <p>
    * 添加需要计划的任务
    * </p>
    * 
    * @param command
-   * @param time  //  定时
+   * @param time
+   *          // 定时
    */
-  public void putSchedule(Runnable command , Date... startTimes ){
-    long current = System.currentTimeMillis() ;
-    if((startTimes != null) && (startTimes.length > 0) ){
-      for(Date time : startTimes){
-        long delay =  time.getTime() - current ;
-        scheExecService.schedule(command , delay , TimeUnit.MILLISECONDS);
+  public void putSchedule(Runnable command, Date... startTimes) {
+    long current = System.currentTimeMillis();
+    if ((startTimes != null) && (startTimes.length > 0)) {
+      for (Date time : startTimes) {
+        long delay = time.getTime() - current;
+        scheExecService.schedule(command, delay, TimeUnit.MILLISECONDS);
       }
     } else {
-      scheExecService.schedule(command , 0 , TimeUnit.MILLISECONDS);
+      scheExecService.schedule(command, 0, TimeUnit.MILLISECONDS);
     }
   }
 
@@ -78,23 +77,40 @@ public class SchedulerManager {
    * 周期性 定时任务
    * 
    */
-  public void putFixedRateSchedule(Runnable command , Date startTime , long period){
-    long current = System.currentTimeMillis() ;
-    if(startTime != null){
-      long initialDelay =  startTime.getTime() - current ;
-      scheExecService.scheduleAtFixedRate(command , initialDelay , period , TimeUnit.MILLISECONDS);
+  public void putFixedRateSchedule(Runnable command, Date startTime, long period) {
+    long current = System.currentTimeMillis();
+    if (startTime != null) {
+      long initialDelay = startTime.getTime() - current;
+      scheExecService.scheduleAtFixedRate(command, initialDelay, period, TimeUnit.MILLISECONDS);
     } else {
-      scheExecService.scheduleAtFixedRate(command , 0 , period , TimeUnit.MILLISECONDS);
+      scheExecService.scheduleAtFixedRate(command, 0, period, TimeUnit.MILLISECONDS);
+
     }
   }
-  
-  
-   /***
-    *  停止任务调度器
-    */
+
+  /**
+   * ScheduleWithFixedDelay 取决于每次任务执行的时间长短，是基于不固定时间间隔进行任务调度。
+   * 
+   * @param command
+   * @param startTime
+   * @param period
+   * @author kindustry
+   */
+  public void putWithFixedSchedule(Runnable command, Date startTime, long period) {
+    long current = System.currentTimeMillis();
+    if (startTime != null) {
+      long initialDelay = startTime.getTime() - current;
+      scheExecService.scheduleWithFixedDelay(command, initialDelay, period, TimeUnit.MILLISECONDS);
+    } else {
+      scheExecService.scheduleWithFixedDelay(command, 0, period, TimeUnit.MILLISECONDS);
+    }
+  }
+
+  /***
+   * 停止任务调度器
+   */
   public void stop() {
     scheExecService.shutdown();
   }
-
 
 }

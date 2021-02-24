@@ -2,6 +2,8 @@ package com.kindustry.test.observe;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import com.kindustry.framework.service.Worker;
 /**
  * 监听
  * */

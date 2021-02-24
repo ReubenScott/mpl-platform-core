@@ -1,10 +1,5 @@
-package com.kindustry.common.metic;
+package com.kindustry.framework.generator;
 
-/**
- * @author Administrator
- *
- *         To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
- */
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
@@ -12,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class UUIDGenerator {
+public class UUIDWorker {
 
   public String valueBeforeMD5 = "";
 
@@ -20,7 +15,7 @@ public class UUIDGenerator {
 
   private static Random myRand;
 
-  private static SecureRandom mySecureRand;
+  private static SecureRandom secureRandom;
 
   private static String s_id;
 
@@ -37,8 +32,8 @@ public class UUIDGenerator {
      */
 
   static {
-    mySecureRand = new SecureRandom();
-    long secureInitializer = mySecureRand.nextLong();
+    secureRandom = new SecureRandom();
+    long secureInitializer = secureRandom.nextLong();
     myRand = new Random(secureInitializer);
     try {
       s_id = InetAddress.getLocalHost().toString();
@@ -52,7 +47,7 @@ public class UUIDGenerator {
    * Default constructor.  With no specification of security option,
    * this constructor defaults to lower security, high performance.
    */
-  public UUIDGenerator() {
+  public UUIDWorker() {
     getRandomGUID(false);
   }
 
@@ -62,7 +57,7 @@ public class UUIDGenerator {
    * strong.  Secure false defaults to the standard Random function seeded
    * with a single cryptographically strong random number.
    */
-  public UUIDGenerator(boolean secure) {
+  public UUIDWorker(boolean secure) {
     getRandomGUID(secure);
   }
 
@@ -84,7 +79,7 @@ public class UUIDGenerator {
       long rand = 0;
 
       if (secure) {
-        rand = mySecureRand.nextLong();
+        rand = secureRandom.nextLong();
       } else {
         rand = myRand.nextLong();
       }
@@ -139,12 +134,12 @@ public class UUIDGenerator {
    * @return String UUID
    */
   public static String generate() {
-    return new UUIDGenerator().valueAfterMD5;
+    return new UUIDWorker().valueAfterMD5;
   }
 
   // Demonstraton and self test of class
   public static void main(String args[]) {
-    String uuid = UUIDGenerator.generate();
+    String uuid = UUIDWorker.generate();
     System.out.println(uuid);
     System.out.println("baebaef2-4444-1034-8757-3b303faca01e".length());
     /*  for (int i = 0; i < 100; i++) {
