@@ -20,8 +20,8 @@ import java.util.concurrent.FutureTask;
  * @since <i>May 25, 2013</i>
  */
 public class ProxySettingSample {
-  public static final String PRXOY_HOST = "122.129.120.172";
-  public static final String PROXY_PORT = "8080";
+  public static final String PRXOY_HOST = "127.0.0.1";
+  public static final String PROXY_PORT = "8580";
   public static final String TEST_ADDRESS = "http://www.google.com.tw";
   private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
@@ -39,9 +39,10 @@ public class ProxySettingSample {
       public Boolean call() throws Exception {
         HttpURLConnection oConn = null;
         try {
-          Proxy oProxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(PRXOY_HOST, Integer.parseInt(PROXY_PORT)));
+          System.out.println("oCallback");
+          Proxy oProxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(PRXOY_HOST, Integer.parseInt(PROXY_PORT)));
           URL url = new URL("http://www.aastocks.com");
-          oConn = (HttpURLConnection) url.openConnection(oProxy);
+          oConn = (HttpURLConnection)url.openConnection(oProxy);
           oConn.setConnectTimeout(5000);
           oConn.connect();
         } catch (Exception e) {
@@ -61,7 +62,8 @@ public class ProxySettingSample {
       @Override
       protected void done() {
         try {
-          Boolean bCheckSuccess = (Boolean) this.get();
+          System.out.println("oTask");
+          Boolean bCheckSuccess = (Boolean)this.get();
           if (bCheckSuccess) {
             // 代理测试成功
             System.err.println("代理成功");

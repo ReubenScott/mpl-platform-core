@@ -17,9 +17,14 @@ public class JobServiceTest {
    */
   @Test
   public void testAddJob() {
-    JobService service = new JobService();
-    Worker worker = new Worker();
-    service.addJob(worker);
-  }
+    JobService service = new JobService() {};
+    Worker worker = new Worker() {
 
+      @Override
+      public void job() {
+
+      }
+    };
+    service.addWorker(worker);
+  }
 }

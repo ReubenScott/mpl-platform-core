@@ -13,7 +13,7 @@
     <groupId>com.kindustry</groupId>
     <artifactId>platform-pom</artifactId>
     <version>1.0</version>
-    <relativePath>../parent-pom</relativePath>
+    <relativePath>../platform-pom</relativePath>
   </parent>
 
 
@@ -61,7 +61,12 @@
     </dependency>
     
     
-    
+    <!-- java加密解密库 -->
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk16</artifactId>
+    </dependency>
+  
     <!-- Socket -->
     <dependency>
       <groupId>io.netty</groupId>
