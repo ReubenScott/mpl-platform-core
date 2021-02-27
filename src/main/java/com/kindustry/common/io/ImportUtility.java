@@ -27,9 +27,9 @@ import org.slf4j.LoggerFactory;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-import com.kindustry.common.constant.CharSetType;
-import com.kindustry.common.constant.DateStyle;
-import com.kindustry.common.date.DateUtil;
+import com.kindustry.common.util.DateUtility;
+import com.kindustry.system.constant.CharSetType;
+import com.kindustry.system.constant.DateStyle;
 
 public class ImportUtility {
 
@@ -121,15 +121,15 @@ public class ImportUtility {
             case 21: // Time
             case 46: // TODO 需要验证 1900/1/1 0:00:00 24:00:00
             case 176:
-              cellobjTmp = DateUtil.formatDate(cell.getDateCellValue(), DateStyle.TIMEFORMAT);
+              cellobjTmp = DateUtility.formatDate(cell.getDateCellValue(), DateStyle.TIMEFORMAT);
               break;
             case 22: // DateTime
-              cellobjTmp = DateUtil.formatDate(cell.getDateCellValue(), DateStyle.DATETIMEFORMAT);
+              cellobjTmp = DateUtility.formatDate(cell.getDateCellValue(), DateStyle.DATETIMEFORMAT);
               break;
             case 31: // Date 2016年10月26日
             case 58: // Date
               // 处理自定义日期格式：m月d日(通过判断单元格的格式id解决，id的值是58)
-              cellobjTmp = DateUtil.formatDate(cell.getDateCellValue(), DateStyle.SHORTDATEFORMAT);
+              cellobjTmp = DateUtility.formatDate(cell.getDateCellValue(), DateStyle.SHORTDATEFORMAT);
               break;
             case 0: // 数字
               // 返回数值类型的值

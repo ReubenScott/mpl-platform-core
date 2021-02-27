@@ -21,54 +21,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kindustry.common.constant.BrowserType;
-import com.kindustry.config.constant.ApplicationConstant;
+import com.kindustry.system.constant.BrowserType;
+import com.kindustry.system.context.SystemConstant;
 
 public abstract class BasicWebSupport {
 
   protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-  // protected IBasicService baseService;
-
-  /**
-   * ajax 响应
-   * 
-   * @param contents
-   */
-  public static void ajaxResponse(HttpServletResponse response, String content) {
-    try {
-      response.setHeader("Cache-Control", "no-cache");
-      response.setHeader("Content-Type", "text/json;charset=UTF-8");
-      response.setContentType("text/json;charset=UTF-8");
-      ServletOutputStream outputStream = response.getOutputStream();
-      outputStream.write(content.getBytes("UTF-8"));
-      outputStream.flush();
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-  }
-
-  /**
-   * 以html文本形式 返回响应
-   * 
-   * @param outStr
-   */
-  public static void htmlResponse(HttpServletResponse response, String content) {
-    try {
-      response.setHeader("Cache-Control", "no-cache");
-      response.setHeader("Content-Type", "text/html; charset=UTF-8");
-      response.setContentType("text/html;charset=UTF-8");
-      ServletOutputStream outputStream = response.getOutputStream();
-      outputStream.write(content.getBytes("UTF-8"));
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
 
   /**
    * 上传文件
@@ -88,7 +46,7 @@ public abstract class BasicWebSupport {
       name = name.substring(0, name.lastIndexOf("."));
       String suffix = urls[urls.length - 1];
       accessory_table_column = parentFileName + "\\" + name + "_" + new Date().getTime() + "." + suffix;
-      String fileDirectory = ApplicationConstant.ACCESSORY_DIR;
+      String fileDirectory = SystemConstant.ACCESSORY_DIR;
       String fullNewFilePath = fileDirectory + "\\" + accessory_table_column;
 
       if (upLoadFile.length() == 0) {
@@ -190,7 +148,7 @@ public abstract class BasicWebSupport {
     OutputStream os = null;
     try {
       relativePath = relativePath.trim().replace("\\", "/");
-      String filepath = ApplicationConstant.ACCESSORY_DIR + ApplicationConstant.FILE_SEPARATOR + relativePath;
+      String filepath = SystemConstant.ACCESSORY_DIR + SystemConstant.FILE_SEPARATOR + relativePath;
 
       String fileName = relativePath;
       if (relativePath.contains("/")) {
@@ -236,6 +194,46 @@ public abstract class BasicWebSupport {
           e.printStackTrace();
         }
       }
+    }
+  }
+
+  /**
+   * ajax 响应
+   * 
+   * @param contents
+   */
+  public static void ajaxResponse(HttpServletResponse response, String content) {
+    try {
+      response.setHeader("Cache-Control", "no-cache");
+      response.setHeader("Content-Type", "text/json;charset=UTF-8");
+      response.setContentType("text/json;charset=UTF-8");
+      ServletOutputStream outputStream = response.getOutputStream();
+      outputStream.write(content.getBytes("UTF-8"));
+      outputStream.flush();
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  /**
+   * 以html文本形式 返回响应
+   * 
+   * @param outStr
+   */
+  public static void htmlResponse(HttpServletResponse response, String content) {
+    try {
+      response.setHeader("Cache-Control", "no-cache");
+      response.setHeader("Content-Type", "text/html; charset=UTF-8");
+      response.setContentType("text/html;charset=UTF-8");
+      ServletOutputStream outputStream = response.getOutputStream();
+      outputStream.write(content.getBytes("UTF-8"));
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 

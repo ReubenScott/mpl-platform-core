@@ -33,13 +33,13 @@ public class BitComet {
 
     try {
       Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("localhost", 8118));
-      httpUrl = (HttpURLConnection) new URL(url).openConnection(proxy);
+      httpUrl = (HttpURLConnection)new URL(url).openConnection(proxy);
       httpUrl.setConnectTimeout(5000);
       httpUrl.connect();
-//      ReadableByteChannel rbc = Channels.newChannel(conn.getInputStream());
-//      FileOutputStream fos = new FileOutputStream(localFilePath);
-//      fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-//      fos.close();
+      // ReadableByteChannel rbc = Channels.newChannel(conn.getInputStream());
+      // FileOutputStream fos = new FileOutputStream(localFilePath);
+      // fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+      // fos.close();
 
       bis = new BufferedInputStream(httpUrl.getInputStream());
       bos = new BufferedOutputStream(new FileOutputStream(localFilePath));
@@ -89,7 +89,7 @@ public class BitComet {
     File f = new File(localFilePath);
     try {
       urlfile = new URL(url);
-      httpUrl = (HttpURLConnection) urlfile.openConnection();
+      httpUrl = (HttpURLConnection)urlfile.openConnection();
       httpUrl.connect();
       bis = new BufferedInputStream(httpUrl.getInputStream());
       bos = new BufferedOutputStream(new FileOutputStream(f));
@@ -153,7 +153,7 @@ public class BitComet {
       // SocketAddress addr = new InetSocketAddress("127.0.0.1", 1080);
       SocketAddress addr = new InetSocketAddress("127.0.0.1", 9050);
       Proxy proxy = new Proxy(Proxy.Type.SOCKS, addr);
-      final HttpURLConnection httpUrlConnetion = (HttpURLConnection) new URL(url).openConnection(proxy);
+      final HttpURLConnection httpUrlConnetion = (HttpURLConnection)new URL(url).openConnection(proxy);
       httpUrlConnetion.setDoOutput(true);
       httpUrlConnetion.setDoInput(true);
       httpUrlConnetion.setRequestProperty("Content-type", "text/xml");

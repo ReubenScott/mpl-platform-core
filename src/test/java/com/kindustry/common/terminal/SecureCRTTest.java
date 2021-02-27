@@ -10,10 +10,10 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.kindustry.common.date.DateUtil;
-import com.kindustry.common.io.FileUtil;
+import com.kindustry.common.io.FileUtility;
 import com.kindustry.common.terminal.SecureCRT;
 import com.kindustry.common.terminal.UserAuthInfo;
+import com.kindustry.common.util.DateUtility;
 
 public class SecureCRTTest {
 
@@ -71,10 +71,10 @@ public class SecureCRTTest {
 //  @Test
   public void testSyncFile() {
     DateFormat df = new SimpleDateFormat("yyyyMMdd");
-    Date startDate = DateUtil.parseShortDate("2015-12-28");
+    Date startDate = DateUtility.parseShortDate("2015-12-28");
     Long lstartTime = startDate.getTime();
     Long oneDay = 1000 * 60 * 60 * 24l;
-    Long endTime = DateUtil.getLastDayOfMonth(startDate).getTime();
+    Long endTime = DateUtility.getLastDayOfMonth(startDate).getTime();
     Long time = lstartTime;
     while (time <= endTime) {
       Date eachDate = new Date(time);

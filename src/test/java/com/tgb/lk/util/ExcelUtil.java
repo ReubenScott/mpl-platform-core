@@ -24,7 +24,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddressList;
 
-import com.kindustry.common.util.StringUtil;
+import com.kindustry.common.util.StringUtility;
 
 /*
  * ExcelUtil工具类实现功能:

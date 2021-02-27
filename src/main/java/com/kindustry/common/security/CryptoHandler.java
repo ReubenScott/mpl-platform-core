@@ -3,7 +3,7 @@ package com.kindustry.common.security;
 import org.jasypt.encryption.pbe.StandardPBEByteEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
-import com.kindustry.config.constant.ApplicationConstant;
+import com.kindustry.system.context.SystemConstant;
 
 public final class CryptoHandler {
 
@@ -12,8 +12,8 @@ public final class CryptoHandler {
   private final static StandardPBEByteEncryptor byteEncryptor = new StandardPBEByteEncryptor();
 
   static {
-    stringEncryptor.setPassword(ApplicationConstant.CRYPTOKEY);
-    byteEncryptor.setPassword(ApplicationConstant.CRYPTOKEY);
+    stringEncryptor.setPassword(SystemConstant.CRYPTOKEY);
+    byteEncryptor.setPassword(SystemConstant.CRYPTOKEY);
   }
 
   /**

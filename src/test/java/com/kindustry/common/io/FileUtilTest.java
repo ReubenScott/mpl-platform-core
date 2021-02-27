@@ -13,8 +13,8 @@ import java.nio.channels.FileChannel;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.kindustry.common.encode.TranscodeUtils;
-import com.kindustry.common.io.FileUtil;
+import com.kindustry.common.io.FileUtility;
+import com.kindustry.common.util.TranscodeUtility;
 
 public class FileUtilTest {
 
@@ -37,13 +37,13 @@ public class FileUtilTest {
 
   // @Test
   public void testunZip() {
-    FileUtil.unZip("E:\\20150802.zip", "D:\\home\\logs\\");
+    FileUtility.unZip("E:\\20150802.zip", "D:\\home\\logs\\");
   }
 
    @Test
   public void testFuzzyLookupFiles() {
     // String date =
-    File[] files = FileUtil.fuzzyLookupFiles("D:/logs", "?debug*.log");
+    File[] files = FileUtility.fuzzyLookupFiles("D:/logs", "?debug*.log");
     for (File file : files) {
       System.out.println(file.getAbsolutePath());
     }
@@ -54,9 +54,9 @@ public class FileUtilTest {
     // String aa = FileUtil.toHexString( (byte)29);
     // byte aa = FileUtil.convertAscciiToByte("29");
 
-    String uni = TranscodeUtils.strToUnicode("1");
+    String uni = TranscodeUtility.strToUnicode("1");
     System.out.println(uni);
-    String abc = TranscodeUtils.unicodeToString(uni);
+    String abc = TranscodeUtility.unicodeToString(uni);
     System.out.println(abc);
 
   }
@@ -67,16 +67,16 @@ public class FileUtilTest {
     String fileName = "C:/temp/newTemp.txt";
     String content = "new append!";
     // 按方法A追加文件
-    FileUtil.appendMethodA(fileName, content);
-    FileUtil.appendMethodA(fileName, "append end. \n");
+    FileUtility.appendMethodA(fileName, content);
+    FileUtility.appendMethodA(fileName, "append end. \n");
     // 显示文件内容
-    FileUtil.readFileByLines(fileName);
+    FileUtility.readFileByLines(fileName);
 
     // 按方法B追加文件
-    FileUtil.appendMethodB(fileName, content);
-    FileUtil.appendMethodB(fileName, "append end. \n");
+    FileUtility.appendMethodB(fileName, content);
+    FileUtility.appendMethodB(fileName, "append end. \n");
     // 显示文件内容
-    FileUtil.readFileByLines(fileName);
+    FileUtility.readFileByLines(fileName);
   }
 
   public static void main11(String[] args) throws IOException {
