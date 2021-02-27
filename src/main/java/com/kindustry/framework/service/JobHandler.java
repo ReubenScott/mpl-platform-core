@@ -3,7 +3,7 @@ package com.kindustry.framework.service;
 /**
  * 
  * */
-public interface Worker {
+public interface JobHandler {
 
   public void job();
 

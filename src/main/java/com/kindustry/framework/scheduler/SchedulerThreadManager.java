@@ -1,4 +1,4 @@
-package com.kindustry.framework.thread;
+package com.kindustry.framework.scheduler;
 
 import java.util.Date;
 import java.util.concurrent.Callable;
@@ -50,9 +50,12 @@ public class SchedulerThreadManager {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  private volatile static ScheduledExecutorService scheExecService;
-
+  /**
+   * 对保存实例的变量添加volatile的修饰
+   */
   private volatile static SchedulerThreadManager instance;
+
+  private volatile static ScheduledExecutorService scheExecService;
 
   // 計數器
   private static LongAdder count = new LongAdder();

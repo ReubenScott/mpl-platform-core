@@ -23,6 +23,17 @@
   </properties>
 
   <dependencies>
+  
+  
+  
+    <!-- J2EE start -->
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+    </dependency>
+    
+    <!-- J2EE end -->
+    
 
     <!--  本地jar Start -->
 
@@ -66,6 +77,13 @@
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk16</artifactId>
     </dependency>
+  
+    <!-- jasypt加解密密码 -->
+    <dependency>
+      <groupId>org.jasypt</groupId>
+      <artifactId>jasypt</artifactId>
+    </dependency>
+  
   
     <!-- Socket -->
     <dependency>

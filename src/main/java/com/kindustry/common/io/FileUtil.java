@@ -1,7 +1,5 @@
 package com.kindustry.common.io;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,8 +14,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -30,9 +26,8 @@ import java.util.zip.ZipOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class FileUtil {
-  
+
   private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
   /**
@@ -45,12 +40,12 @@ public class FileUtil {
   public static void newFolder(String folderPath) {
     try {
       File dirFile = new File(folderPath);
-      if (!dirFile.exists() && !dirFile.isDirectory() ) {
+      if (!dirFile.exists() && !dirFile.isDirectory()) {
         dirFile.mkdir();
       }
     } catch (Exception e) {
       e.printStackTrace();
-      logger.error("FileUtil mkdir {} Error!" , folderPath );
+      logger.error("FileUtil mkdir {} Error!", folderPath);
     }
   }
 
@@ -111,7 +106,7 @@ public class FileUtil {
   }
 
   /**
-   * 删除文件夹
+   * 删除文件夹 删除文件夹里面的所有文件
    * 
    * @param filePathAndName
    *          String 文件夹路径及名称 如c:/fqf
@@ -119,52 +114,45 @@ public class FileUtil {
    *          String
    * @return boolean
    */
-  public static void delFolder(String folderPath) {
-    try {
-      delAllFile(folderPath); // 删除完里面所有内容
-      String filePath = folderPath;
-      filePath = filePath.toString();
-      File myFilePath = new File(filePath);
-      myFilePath.delete(); // 删除空文件夹
-
-    } catch (Exception e) {
-      System.out.println("删除文件夹操作出错");
-      e.printStackTrace();
-
-    }
-
-  }
+  // public static void delFolder(String folderPath) {
+  // try {
+  // delAllFile(folderPath); // 删除完里面所有内容
+  //
+  // String filePath = folderPath;
+  // filePath = filePath.toString();
+  // File myFilePath = new File(filePath);
+  // myFilePath.delete(); // 删除空文件夹
+  //
+  // } catch (Exception e) {
+  // System.out.println("删除文件夹操作出错");
+  // e.printStackTrace();
+  //
+  // }
+  //
+  // }
 
   /**
-   * 删除文件夹里面的所有文件
+   * 
    * 
    * @param path
    *          String 文件夹路径 如 c:/fqf
    */
-  public static void delAllFile(String path) {
-    File file = new File(path);
+  public static void delFolder(String folderPath) {
+    File file = new File(folderPath);
     if (!file.exists()) {
       return;
     }
-    if (!file.isDirectory()) {
-      return;
+    String[] fileNames = file.list();
+    File item = null;
+    for (String filename : fileNames) {
+      item = new File(folderPath + File.separator + filename);
+      if (item.isDirectory()) {
+        delFolder(folderPath + File.separator + filename);// 先删除文件夹里面的文件
+        // delFolder(path + "/" + tempList[i]);// 再删除空文件夹
+      }
+      item.delete();
     }
-    String[] tempList = file.list();
-    File temp = null;
-    for (int i = 0; i < tempList.length; i++) {
-      if (path.endsWith(File.separator)) {
-        temp = new File(path + tempList[i]);
-      } else {
-        temp = new File(path + File.separator + tempList[i]);
-      }
-      if (temp.isFile()) {
-        temp.delete();
-      }
-      if (temp.isDirectory()) {
-        delAllFile(path + "/" + tempList[i]);// 先删除文件夹里面的文件
-        delFolder(path + "/" + tempList[i]);// 再删除空文件夹
-      }
-    }
+    file.delete();
   }
 
   /**
@@ -331,12 +319,10 @@ public class FileUtil {
         File zfile = new File(sDestPath + "/" + ze.getName());
         File fpath = new File(zfile.getParentFile().getPath());
         if (ze.isDirectory()) {
-          if (!zfile.exists())
-            zfile.mkdirs();
+          if (!zfile.exists()) zfile.mkdirs();
           zins.closeEntry();
         } else {
-          if (!fpath.exists())
-            fpath.mkdirs();
+          if (!fpath.exists()) fpath.mkdirs();
           FileOutputStream fouts = new FileOutputStream(zfile);
           int i;
           allFileName.add(zfile.getAbsolutePath());
@@ -376,13 +362,13 @@ public class FileUtil {
     String filename = "";
     StringTokenizer st = new StringTokenizer(filePath.replace("\\", "/"), "/");
     while (st.hasMoreElements()) {
-      filename = (String) st.nextElement();
+      filename = (String)st.nextElement();
     }
     return filename;
   }
 
   /**
-   *获得文件名的扩展名，也就是格式 e.g. "mypath/myfile.txt" -> "txt".
+   * 获得文件名的扩展名，也就是格式 e.g. "mypath/myfile.txt" -> "txt".
    */
   public static String getFileExtension(String path) {
     // 边界处理
@@ -428,7 +414,7 @@ public class FileUtil {
     System.out.println(regex);
     List<File> fileList = new ArrayList<File>();
     filePattern(file, Pattern.compile(regex), fileList);
-    return (File[]) fileList.toArray(new File[fileList.size()]);
+    return (File[])fileList.toArray(new File[fileList.size()]);
   }
 
   /**
@@ -488,8 +474,7 @@ public class FileUtil {
   public static void compress(OutputStream os, String... paths) throws Exception {
     ZipOutputStream zos = new ZipOutputStream(os);
     for (String path : paths) {
-      if (path.equals(""))
-        continue;
+      if (path.equals("")) continue;
       java.io.File file = new java.io.File(path);
       if (file.exists()) {
         if (file.isDirectory()) {
@@ -688,8 +673,8 @@ public class FileUtil {
         // 对于windows下，\r\n这两个字符在一起时，表示一个换行。
         // 但如果这两个字符分开显示时，会换两次行。
         // 因此，屏蔽掉\r，或者屏蔽\n。否则，将会多出很多空行。
-        if (((char) tempchar) != '\r') {
-          System.out.print((char) tempchar);
+        if (((char)tempchar) != '\r') {
+          System.out.print((char)tempchar);
         }
       }
       reader.close();

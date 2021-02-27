@@ -4,11 +4,17 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-import com.kindustry.framework.thread.SchedulerThreadManager;
+import com.kindustry.framework.scheduler.SchedulerThreadManager;
 
 public class JobService {
 
-  public void addWorker(Worker worker) {
+  /**
+   * processor
+   * 
+   * @param worker
+   * @author kindustry
+   */
+  public void addHandler(JobHandler worker) {
 
     // worker.addObserver((o, arg) -> {
     // System.out.println(" thread : " + Thread.currentThread().getId() + "    " + Thread.currentThread().getName());
@@ -53,6 +59,7 @@ public class JobService {
     // executor.submit(oTask);
 
     SchedulerThreadManager.getInstance().push(oTask);
+
   }
 
 }

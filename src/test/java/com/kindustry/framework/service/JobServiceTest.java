@@ -18,13 +18,13 @@ public class JobServiceTest {
   @Test
   public void testAddJob() {
     JobService service = new JobService() {};
-    Worker worker = new Worker() {
+    JobHandler worker = new JobHandler() {
 
       @Override
       public void job() {
 
       }
     };
-    service.addWorker(worker);
+    service.addHandler(worker);
   }
 }
