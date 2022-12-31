@@ -20,6 +20,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
@@ -31,12 +32,22 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HttpUtility {
 
   private static final Logger log = LoggerFactory.getLogger(HttpUtility.class);
+
+  /**
+   *
+   * 解决java不支持AES/CBC/PKCS7Padding模式解密
+   *
+   */
+  static {
+    Security.addProvider(new BouncyCastleProvider());
+  }
 
   // 自定义请求头
   private static Map<String, String> requestHeaders = new HashMap<String, String>();
